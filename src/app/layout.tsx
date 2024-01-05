@@ -1,8 +1,7 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
-
-const inter = Inter({ subsets: ['latin'] })
+import { Inter as FontSans } from "next/font/google"
+import { cn } from '../lib/utils'
 
 export const metadata: Metadata = {
   title: 'Next Notes',
@@ -25,6 +24,11 @@ export const metadata: Metadata = {
   ],
 }
 
+export const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+})
+
 export default function RootLayout({
   children,
 }: {
@@ -32,12 +36,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      {/* <head>
-        <link rel="icon" href="favicon.ico" sizes="any" />
-        <meta name="description" content="Next Notes" />
-        <meta name="theme-color" content="#000000"/>
-      </head> */}
-      <body className={inter.className}>{children}</body>
+      <body className={cn(
+        "min-h-screen bg-background font-sans antialiased",
+        fontSans.variable
+      )}>
+        {children}
+      </body>
     </html>
   )
 }
