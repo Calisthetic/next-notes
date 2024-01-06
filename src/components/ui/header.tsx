@@ -1,7 +1,7 @@
 'use client'
 
 import Link from "next/link";
-import { FunctionComponent, useCallback, useEffect, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import IconLogo from "../icons/icon-logo";
 import IconDark from "../icons/icon-dark";
 import IconLight from "../icons/icon-light";
@@ -18,7 +18,7 @@ const Header: FunctionComponent<HeaderProps> = () => {
 
   const [currentTheme, setCurrentTheme] = useState(value ? value :
   (typeof window !== 'undefined' ? window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light" : "dark"))
-  console.log(currentTheme)
+  
   if (typeof document !== 'undefined') {
     if (currentTheme === "light") {
       document.documentElement.classList.remove('dark')

@@ -42,7 +42,7 @@ export default function RootLayout({
         fontSans.variable
       )}>
         <Header />
-        <main className='flex flex-col min-h-[calc(100dvh-48px)] justify-center'>
+        <main className='flex flex-col min-h-[calc(100dvh-48px)] pt-12'>
           {children}
         </main>
       </body>
