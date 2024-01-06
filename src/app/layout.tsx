@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { Inter as FontSans } from "next/font/google"
 import { cn } from '../lib/utils'
+import Header from '../components/ui/header'
 
 export const metadata: Metadata = {
   title: 'Next Notes',
@@ -37,10 +38,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(
-        "min-h-screen bg-background font-sans antialiased",
+        "min-h-screen bg-background font-sans antialiased text-foreground",
         fontSans.variable
       )}>
-        {children}
+        <Header />
+        <main className='flex flex-col min-h-[calc(100dvh-48px)] justify-center'>
+          {children}
+        </main>
       </body>
     </html>
   )
