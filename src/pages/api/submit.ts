@@ -1,5 +1,4 @@
 import getSheetClient from '@/src/lib/sheet-client';
-import { google } from 'googleapis';
 import { NextApiRequest, NextApiResponse } from "next"
 
 type SheetForm = {
@@ -34,22 +33,7 @@ export default async function handler(
   const body = req.body as SheetForm
 
   try {
-    const auth = await google.auth.getClient({
-      // credentials: {
-      //   client_email: process.env.GOOGLE_CLIENT_EMAIL,
-      //   private_key: process.env.GOOGLE_PRIVATE_KEY?.replace('/\\n/g', '\n')
-      // },
-      scopes: [
-        'https://www.googleapis.com/auth/spreadsheets'
-      ]
-    })
-
-
     const sheets = await getSheetClient();
-    // google.sheets({
-    //   version: "v4",
-    //   auth
-    // })
     
     // const response = await sheets.spreadsheets.values.append({
     //   spreadsheetId: process.env.GOOGLE_SHEET_ID,
@@ -62,21 +46,23 @@ export default async function handler(
     //   }
     // })
 
-    // const response = await sheets.spreadsheets.get({
-    //   spreadsheetId: process.env.GOOGLE_SHEET_ID
-    // })
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId: process.env.GOOGLE_SHEET_ID,
-      range: "Users!A2:C"
+      range: "ProductCategories!A2:B"
     })
-    
-    // const response = await sheets.spreadsheets.get({
-    //   spreadsheetId: process.env.GOOGLE_SHEET_ID,
-    //   auth: auth
-    // })
+
+    // if (response.data.values) {
+    //   const dd:ProductCategory[] = response.data.values.map((i) => ({
+    //     id: i[0],
+    //     name: i[1]
+    //   } as ProductCategory))
+    // }
 
     return res.status(200).json({
-      data: response.data
+      data: response.data.values?.map((i) => ({
+        id: i[0],
+        name: i[1]
+      }))
     })
   } catch(e:any) {
     return res.status(500).send({message: e.message ?? 'Something went wrong'})

@@ -5,6 +5,5 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { id } = req.query
-  res.end(`Post: ${id}`)
+  res.status(200).send("Okey, you found that...")
 }
