@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 
 export default function Home() {
-  const [userIdLS, setUserIdLS] = useLocalStorage("userId", "");
+  const [userIdLS, setUserIdLS] = useLocalStorage("user-id", "");
 
   const loginRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -53,8 +53,8 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <div className="flex flex-col flex-grow gap-y-2 max-w-xs">
+    <div className="flex flex-col items-center h-[calc(100dvh-48px)] justify-center">
+      <div className="flex flex-col flex-grow gap-y-2 max-w-xs justify-center">
         <div>
           <label htmlFor="username" className="block text-sm font-medium text-primary-foreground">Username</label>
           <input ref={loginRef} type="text" id="username" name="username" className="mt-1 px-2 py-1 w-full border rounded-md bg-input text-input-foreground 

@@ -1,11 +1,11 @@
 'use client'
 
-import Link from "next/link";
 import { FunctionComponent, useEffect, useState } from "react";
 import IconLogo from "../icons/icon-logo";
 import IconDark from "../icons/icon-dark";
 import IconLight from "../icons/icon-light";
 import useLocalStorage from "@/src/lib/hooks/useLocalStorage";
+import Link from "next/link";
 
 interface HeaderProps {
   
@@ -36,10 +36,9 @@ const Header: FunctionComponent<HeaderProps> = () => {
       setValue("dark")
     }
   }, [currentTheme])
-  const [userId, setUserId] = useLocalStorage("user-id", "")
 
   return (
-    <nav className="fixed top-0 z-40 h-10 sm:h-12 px-1 sm:px-2 w-full">
+    <nav className="fixed bg-primary top-0 z-40 h-10 sm:h-12 px-1 sm:px-2 w-full">
       <div className="flex items-center justify-between h-full">
         <div className="flex items-center justify-start">
           <Link href="/" className="flex ml-1 sm:ml-2 md:mr-24">
@@ -58,12 +57,6 @@ const Header: FunctionComponent<HeaderProps> = () => {
               <IconDark classes="h-6 w-6 fill-black"></IconDark>
             )}
           </button>
-          {
-            userId ? (
-              <Link href="/signin" className="bg-button first-letter:uppercase transition-all
-              rounded-md px-3 py-1.5 text-sm font-medium hover:bg-button-hover">sign in</Link>
-            ) : null
-          }
         </div>
       </div>
     </nav>
