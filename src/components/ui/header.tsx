@@ -1,43 +1,9 @@
-'use client'
-
-import { FunctionComponent, useEffect, useState } from "react";
 import IconLogo from "../icons/icon-logo";
-import IconDark from "../icons/icon-dark";
-import IconLight from "../icons/icon-light";
-import useLocalStorage from "@/src/lib/hooks/useLocalStorage";
 import Link from "next/link";
-import Theming from "../theming";
-
-interface HeaderProps {
-  
-}
+import Theming from "./theming";
+import { Suspense } from "react";
  
-const Header: FunctionComponent<HeaderProps> = () => {
-
-  // local storage
-  const [value, setValue] = useLocalStorage("theme", "")
-
-  const [currentTheme, setCurrentTheme] = useState(value ? value :
-  (typeof window !== 'undefined' ? window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light" : "dark"))
-  
-  if (typeof document !== 'undefined') {
-    if (currentTheme === "light") {
-      document.documentElement.classList.remove('dark')
-    } else {
-      document.documentElement.classList.add('dark')
-    }
-  }
-
-  useEffect(() => {
-    if (currentTheme === "light") {
-      document.documentElement.classList.remove('dark')
-      setValue("light")
-    } else {
-      document.documentElement.classList.add('dark')
-      setValue("dark")
-    }
-  }, [currentTheme])
-
+export default function Header() {
   return (
     <nav className="fixed bg-primary top-0 z-40 h-10 sm:h-12 px-1 sm:px-2 w-full">
       <div className="flex items-center justify-between h-full">
@@ -51,11 +17,11 @@ const Header: FunctionComponent<HeaderProps> = () => {
         </div>
         {/* User profile */}
         <div className="flex items-center gap-x-2 sm:gap-x-4 text-textLight dark:text-textDark">
-          <Theming></Theming>
+          <Suspense fallback={<div></div>}>
+            <Theming></Theming>
+          </Suspense>
         </div>
       </div>
     </nav>
   );
 }
- 
-export default Header;
