@@ -1,10 +1,7 @@
+import { ClassesProps } from "@/src/lib/interfaces/classes-props";
 import { FunctionComponent } from "react";
 
-interface IconDarkProps {
-  classes:string
-}
-
-const IconDark: FunctionComponent<IconDarkProps> = ({classes}:IconDarkProps) => {
+const IconDark: FunctionComponent<ClassesProps> = ({classes}:ClassesProps) => {
   return (
     <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" className={classes}>
       <path d="M2.89998 0.499976C2.89998 0.279062 2.72089 0.0999756 2.49998 0.0999756C2.27906 0.0999756 2.09998 0.279062 

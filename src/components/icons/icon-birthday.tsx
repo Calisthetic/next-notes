@@ -1,10 +1,7 @@
+import { ClassesProps } from "@/src/lib/interfaces/classes-props";
 import { FunctionComponent } from "react";
-
-interface IconBirthdayProps {
-  classes: string
-}
  
-const IconBirthday: FunctionComponent<IconBirthdayProps> = ({classes}:IconBirthdayProps) => {
+const IconBirthday: FunctionComponent<ClassesProps> = ({classes}:ClassesProps) => {
   return (
     <svg className={classes} viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
       <path d="M24.16,14.21,24.1,14,24,13.88l-.12-.14a.9.9,0,0,0-1.3,0l-.12.14-.08.16a1.26,1.26,0,0,0,0,

@@ -1,10 +1,7 @@
+import { ClassesProps } from "@/src/lib/interfaces/classes-props";
 import React, { FunctionComponent } from "react";
-
-interface IconLogoProps {
-  classes:string
-}
  
-const IconLogo: FunctionComponent<IconLogoProps> = (props:IconLogoProps) => {
+const IconLogo: FunctionComponent<ClassesProps> = (props:ClassesProps) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" className={props.classes}>
       <polygon points="25.24 128.8, 10 120, 10 64, 58.5 36, 73.74 44.8, 25.24 72.8"></polygon>
