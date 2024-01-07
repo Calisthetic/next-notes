@@ -6,6 +6,7 @@ import IconDark from "../icons/icon-dark";
 import IconLight from "../icons/icon-light";
 import useLocalStorage from "@/src/lib/hooks/useLocalStorage";
 import Link from "next/link";
+import Theming from "../theming";
 
 interface HeaderProps {
   
@@ -50,13 +51,7 @@ const Header: FunctionComponent<HeaderProps> = () => {
         </div>
         {/* User profile */}
         <div className="flex items-center gap-x-2 sm:gap-x-4 text-textLight dark:text-textDark">
-          <button className="mr-1" onClick={() => setCurrentTheme(currentTheme === "dark" ? "light" : "dark")}>
-            {currentTheme === "dark" ? (
-              <IconLight classes="h-6 w-6 fill-white"></IconLight>
-            ) : (
-              <IconDark classes="h-6 w-6 fill-black"></IconDark>
-            )}
-          </button>
+          <Theming></Theming>
         </div>
       </div>
     </nav>

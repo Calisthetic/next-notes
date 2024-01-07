@@ -3,6 +3,7 @@ import './globals.css'
 import { Inter as FontSans } from "next/font/google"
 import { cn } from '../lib/utils'
 import Header from '../components/ui/header'
+import { Providers } from './providers'
 
 export const metadata: Metadata = {
   title: 'Next Notes',
@@ -41,12 +42,14 @@ export default function RootLayout({
         "min-h-screen bg-primary font-sans antialiased text-primary-foreground",
         fontSans.variable
       )}>
-        <Header />
-        <main className='flex flex-col min-h-screen pt-10 sm:pt-12'>
-          <div className='min-h-[calc(100dvh-40px)] sm:min-h-[calc(100dvh-48px)]'>
-            {children}
-          </div>
-        </main>
+        <Providers>
+          <Header />
+          <main className='flex flex-col min-h-screen pt-10 sm:pt-12'>
+            <div className='min-h-[calc(100dvh-40px)] sm:min-h-[calc(100dvh-48px)]'>
+              {children}
+            </div>
+          </main>
+        </Providers>
       </body>
     </html>
   )
