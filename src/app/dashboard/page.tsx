@@ -15,11 +15,13 @@ export default function Dashboars () {
         child:outline-1 child:border-b sm:child:outline child:outline-border sm:child:rounded-xl
         child:py-2 sm:child:py-0 sm:child:border-none child:p-1">
           <div className="w-full sm:w-[calc(40%-4px)] md:w-[calc(30%-8px)] flex flex-col justify-between">
-            <div className="flex items-center justify-start gap-x-2">
-              <IconBirthday classes="h-8 w-8 fill-icon"></IconBirthday>
-              <p className=" text-lg font-medium">Ближайшие днюхи</p>
+            <div>
+              <div className="flex items-center justify-start gap-x-2">
+                <IconBirthday classes="h-8 w-8 fill-icon"></IconBirthday>
+                <p className=" text-lg font-medium">Ближайшие днюхи</p>
+              </div>
+              <RenderBirthdays></RenderBirthdays>
             </div>
-            <RenderBirthdays></RenderBirthdays>
             <div className="flex justify-between items-center">
               <div></div>
               <ReadMoreButton path="/birthdays"></ReadMoreButton>
@@ -31,15 +33,6 @@ export default function Dashboars () {
                 <IconTasks classes="h-8 w-8 stroke-icon"></IconTasks>
                 <p className=" text-lg font-medium">Задания</p>
               </div>
-              {/* <div className="my-1">
-                <label className="relative inline-flex items-center me-5 cursor-pointer">
-                  <input type="checkbox" value="" className="sr-only peer"/>
-                  <div className="w-11 h-6 bg-gray-500 rounded-full peer peer-checked:after:translate-x-full 
-                  rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] 
-                  after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-white after:border 
-                  after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-button"></div>
-                </label>
-              </div> */}
               <RenderTasks></RenderTasks>
             </div>
             <div className="flex justify-between items-center">
