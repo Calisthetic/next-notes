@@ -6,28 +6,32 @@ import { useEffect, useState } from "react";
 export default function RenderNotes() {
   const [userIdLS, setUserIdLS] = useLocalStorage("user-id", "");
   const [response, setResponse] = useState<string[]|null>(null);
+  const [isUpdate, setIsUpdate] = useState(true)
   
   useEffect(() => {
-    fetch("api/notes/last/4", {
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-        "user-id": userIdLS
-      },
-    })
-    .then((res) => {
-      if (res.status !== 200) {
-        throw new Error('Wrong data')
-      }
-      return res.json();
-    })
-    .then(data => {
-      setResponse(data.data)
-    })
-    .catch(error => {
-      console.log(error.message)
-    })
-  })
+    const fetchData = async () => {
+      fetch("api/notes/last/4", {
+        method: 'GET',
+        headers: {
+          "Content-Type": "application/json",
+          "user-id": userIdLS
+        },
+      })
+      .then((res) => {
+        if (res.status !== 200) {
+          throw new Error('Wrong data')
+        }
+        return res.json();
+      })
+      .then(data => {
+        setResponse(data.data)
+      })
+      .catch(error => {
+        console.log(error.message)
+      })
+    }
+    fetchData()
+  }, [isUpdate])
 
   return (
     <div className="my-1 flex flex-col gap-x-1">

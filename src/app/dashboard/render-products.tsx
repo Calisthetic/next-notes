@@ -10,25 +10,28 @@ export default function RenderProducts() {
   const [isUpdate, setIsUpdate] = useState(true)
   
   useEffect(() => {
-    fetch("api/products-of-users", {
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-        "user-id": userIdLS
-      },
-    })
-    .then((res) => {
-      if (res.status !== 200) {
-        throw new Error('Wrong data')
-      }
-      return res.json();
-    })
-    .then(data => {
-      setResponse(data.data)
-    })
-    .catch(error => {
-      console.log(error.message)
-    })
+    const fetchData = async () => {
+      fetch("api/products-of-users", {
+        method: 'GET',
+        headers: {
+          "Content-Type": "application/json",
+          "user-id": userIdLS
+        },
+      })
+      .then((res) => {
+        if (res.status !== 200) {
+          throw new Error('Wrong data')
+        }
+        return res.json();
+      })
+      .then(data => {
+        setResponse(data.data)
+      })
+      .catch(error => {
+        console.log(error.message)
+      })
+    }
+    fetchData()
   }, [isUpdate])
 
   function RemoveProduct(productId: string) {
@@ -46,7 +49,7 @@ export default function RenderProducts() {
       return res.json();
     })
     .then(() => {
-      setIsUpdate(isUpdate)
+      //setIsUpdate(isUpdate)
     })
     .catch(error => {
       console.log(error.message)
