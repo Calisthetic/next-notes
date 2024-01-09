@@ -3,12 +3,12 @@
 import useLocalStorage from "@/src/lib/hooks/useLocalStorage";
 import { useEffect, useState } from "react";
 
-export default function RenderBirthdays() {
+export default function RenderNotes() {
   const [userIdLS, setUserIdLS] = useLocalStorage("user-id", "");
   const [response, setResponse] = useState<string[]|null>(null);
   
   useEffect(() => {
-    fetch("api/birthdays/next/4", {
+    fetch("api/notes/last/4", {
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
@@ -30,12 +30,14 @@ export default function RenderBirthdays() {
   })
 
   return (
-    <div className="my-1">
+    <div className="my-1 flex flex-col gap-x-1">
       {response ? response.map((item, index) => (
-        <div key={index} className="flex flex-row flex-wrap: md:flex-nowrap gap-x-1">
-          <span className="opacity-80 font-semibold">{item[3]}</span>
-          <span>{item[2]}</span>
-        </div>
+        <button key={index} className=" truncate text-start flex flex-row 
+        hover:border-border border border-primary rounded px-0.5">
+          <span className="truncate font-semibold">{item[2]}</span>
+          <span className="text-icon mx-1 font-semibold">-</span>
+          <span className="truncate opacity-80">{item[3]}</span>
+        </button>
       )) : (
         <>
           <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse max-w-[360px] my-2.5"></div>
