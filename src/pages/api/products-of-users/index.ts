@@ -30,25 +30,28 @@ export default async function handler(
     if (responseProductsOfUsers.status !== 200) {
       return res.status(responseProductsOfUsers.status).send({message: responseProductsOfUsers.statusText})
     } else if (!responseProductsOfUsers.data.values) {
-      return res.status(404).send({message: 'No products found'})
+      return res.status(200).send({data: []})
     } else if (!responseProducts.data.values) {
       return res.status(404).send({message: 'No products found'})
     } else if (!responseProductCategories.data.values) {
       return res.status(404).send({message: 'No products found'})
     }
+    let productCategories = responseProductCategories.data.values.filter(x => x.length !== 0)
+    let products = responseProducts.data.values.filter(x => x.length !== 0)
+    let productsOfUsers = responseProductsOfUsers.data.values.filter(x => x.length !== 0)
     
-    for (let i = 0; i < responseProductsOfUsers.data.values.length; i++) {
-      const productId = responseProductsOfUsers.data.values[i][2]
-      const productObjectId = responseProducts.data.values.findIndex(x => x[0] === productId)
+    for (let i = 0; i < productsOfUsers.length; i++) {
+      const productId = productsOfUsers[i][2]
+      const productObjectId = products.findIndex(x => x[0] === productId)
       if (productObjectId === -1) {
         return res.status(500).send({message: 'Something went wrong'})
       }
-      responseProductsOfUsers.data.values[i][2] = responseProducts.data.values[productObjectId][1]
-      const categotyId = responseProducts.data.values[productObjectId][2]
-      responseProductsOfUsers.data.values[i].push(responseProductCategories.data.values[categotyId - 1][1])
+      productsOfUsers[i][2] = products[productObjectId][1]
+      const categotyId = products[productObjectId][2]
+      productsOfUsers[i].push(productCategories[categotyId - 1][1])
     }
     return res.status(200).json({
-      data: responseProductsOfUsers.data.values
+      data: productsOfUsers
     })
   } catch(e:any) {
     return res.status(500).send({message: e.message ?? 'Something went wrong'})
