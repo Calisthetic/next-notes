@@ -1,3 +1,3 @@
 export function getId() {
-  return "=uuid"
+  return "=uuid()"
 }
