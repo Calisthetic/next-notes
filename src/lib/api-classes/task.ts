@@ -5,6 +5,7 @@ export class Task extends BaseModel {
   time: Date
   userId: string
   text: string
+  completed?: string
 
   constructor(arr:any[]) {
     super(arr[0])
@@ -12,5 +13,6 @@ export class Task extends BaseModel {
     this.time = arr[2]
     this.userId = arr[3]
     this.text = arr[4]
+    this.completed = arr[5]
   }
 }

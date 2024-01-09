@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 export default function RenderTasks() {
   const [userIdLS, setUserIdLS] = useLocalStorage("user-id", "");
   const [response, setResponse] = useState<string[]|null>(null);
-  const [isUpdate, setIsUpdate] = useState(true)
   
   useEffect(() => {
     fetch("api/tasks/last/4", {
@@ -29,18 +28,9 @@ export default function RenderTasks() {
     .catch(error => {
       console.log(error.message)
     })
-  }, [isUpdate])
+  }, [])
 
   function CompleteTask(taskId:string) {
-    const el:HTMLDivElement|null = document.querySelector('[data-id="' + taskId + '"]')
-    if (el) {
-      setTimeout(() => {
-        el.style.opacity = "0%"
-      }, 300);
-      setTimeout(() => {
-        el.remove()
-      }, 500);
-    }
     fetch("api/tasks/complete/"+taskId, {
       method: 'PATCH',
       headers: {
@@ -55,7 +45,7 @@ export default function RenderTasks() {
       return res.json();
     })
     .then(() => {
-      setIsUpdate(isUpdate)
+      //setIsUpdate(isUpdate)
     })
     .catch(error => {
       console.log(error.message)
@@ -63,10 +53,10 @@ export default function RenderTasks() {
   }
   
   return (
-    <div className="my-1 ml-1">
+    <div className="my-1">
       {response ? response.map((item) => (
         <div key={item[0]} data-id={item[0]} className="flex flex-row flex-wrap: md:flex-nowrap gap-x-1 transition-opacity">
-          <CheckButton checkOn={() => CompleteTask(item[0])}></CheckButton>
+          <CheckButton defaultChecked={item[5] === "1" ? true : false} checkOn={() => CompleteTask(item[0])}></CheckButton>
           <span className="opacity-80 font-semibold">{item[3]}</span>
           <span className="mx-1">-</span>
           <span>{item[2]}</span>

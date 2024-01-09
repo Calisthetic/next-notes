@@ -3,15 +3,16 @@ import { ChangeEvent } from "react";
 interface CheckButtonProps {
   checkOn?: () => void
   checkOff?: () => void
+  defaultChecked?: boolean
 }
 
-export default function CheckButton({checkOn, checkOff}:CheckButtonProps) {
+export default function CheckButton({checkOn, checkOff, defaultChecked}:CheckButtonProps) {
   const voidFunc = () => {}
 
   return (
     <div>
       <label className="relative inline-flex items-center cursor-pointer">
-        <input type="checkbox" value="" className="sr-only peer"
+        <input type="checkbox" value="" className="sr-only peer" defaultChecked={defaultChecked}
         onChange={(event:ChangeEvent<HTMLInputElement>) => {
           event.target.checked ? checkOn ? checkOn() : voidFunc() : checkOff ? checkOff() : voidFunc()
         }}/>

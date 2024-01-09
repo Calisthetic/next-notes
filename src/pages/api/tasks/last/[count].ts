@@ -8,23 +8,9 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    // const userId = req.headers["user-id"]
-    // if (!userId) {
-    //   return res.status(401).send({message: 'Unauthorized'})
-    // }
-    // const sheets = await getSheetClient();
-    // const response = await sheets.spreadsheets.values.get({
-    //   spreadsheetId: process.env.GOOGLE_SHEET_ID,
-    //   range: "Tasks!A2:" + getSheetLetter(new Task([]))
-    // })
-    // return res.status(200).json({
-    //   data: response.data.values?.filter(x => x.length > 0 && x[1] === userId).sort((a, b) => {
-    //     const aDate = new Date(a[2])
-    //     const bDate = new Date(b[2])
-    //     return aDate.getTime() - bDate.getTime()
-    //   })[0]
-    // })
-
+    if (req.method !== 'GET') {
+      res.status(405).send({message: 'Only GET requests are allowed'})
+    }
     const { count } = req.query
     if (!count || Array.isArray(count) || isNaN(parseInt(count)) || parseInt(count) < 1) {
       return res.status(400).send({message: 'Bad request'})
@@ -43,16 +29,21 @@ export default async function handler(
         data: []
       })
     }
-    let tasksData = response.data.values.filter(x => x.length > 0 && x[1] === userId)
+    let tasksData = response.data.values.filter(x => x.length > 0 && x[1] === userId && x[5] !== '1')
     tasksData.sort((a, b) => {
-      let aMonth = parseInt(a[3][3] + a[3][4])
-      let bMonth = parseInt(b[3][3] + b[3][4])
-      if (aMonth === bMonth) {
-        let aDay = parseInt(a[3][0] + a[3][1])
-        let bDay = parseInt(b[3][0] + b[3][1])
-        return aDay - bDay
+      let aYear = parseInt(a[3][6] + a[3][7])
+      let bYear = parseInt(b[3][6] + b[3][7])
+      if (aYear === bYear) {
+        let aMonth = parseInt(a[3][3] + a[3][4])
+        let bMonth = parseInt(b[3][3] + b[3][4])
+        if (aMonth === bMonth) {
+          let aDay = parseInt(a[3][0] + a[3][1])
+          let bDay = parseInt(b[3][0] + b[3][1])
+          return aDay - bDay
+        }
+        return aMonth - bMonth
       }
-      return aMonth - bMonth
+      return aYear - bYear
     })
     const currentDate = new Date()
     const currentMonth = currentDate.getMonth()
