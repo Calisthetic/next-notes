@@ -35,7 +35,6 @@ export default async function handler(
     let currentTask = tasksData[0]
     currentTask[5] = currentTask[5] === "1" ? "0" : "1"
     const rowId = response.data.values.findIndex(x => x[0] === id) + 2
-    currentTask[0] = getId()
     
     const response2 = await sheets.spreadsheets.values.update({
       spreadsheetId: process.env.GOOGLE_SHEET_ID,
