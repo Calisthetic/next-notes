@@ -4,7 +4,11 @@ import CheckButton from "@/src/components/ui/check-btn";
 import useLocalStorage from "@/src/lib/hooks/useLocalStorage";
 import { useEffect, useState } from "react";
 
-export default function RenderTasks() {
+interface RenderTasksProps {
+  update: boolean
+}
+
+export default function RenderTasks({update}:RenderTasksProps) {
   const [userIdLS, setUserIdLS] = useLocalStorage("user-id", "");
   const [response, setResponse] = useState<string[]|null>(null);
   const [isUpdate, setIsUpdate] = useState(true)
@@ -32,7 +36,7 @@ export default function RenderTasks() {
       })
     }
     fetchData()
-  }, [isUpdate])
+  }, [isUpdate, update])
 
   function ManageTask(taskId:string) {
     fetch("api/tasks/manage/"+taskId, {
