@@ -19,9 +19,6 @@ export default function RenderProducts() {
         },
       })
       .then((res) => {
-        if (res.status !== 200) {
-          throw new Error('Wrong data')
-        }
         return res.json();
       })
       .then(data => {
@@ -59,9 +56,9 @@ export default function RenderProducts() {
   return (
     <div className="my-1">
       {response ? response.map((item, index) => (
-        <div key={index} className="flex flex-row flex-wrap: md:flex-nowrap gap-x-1">
+        <div key={index} className="flex flex-row items-center md:flex-nowrap gap-x-1 ml-0.5 my-0.5">
           <CheckButton defaultChecked={false} checkOn={() => RemoveProduct(item[0])}></CheckButton>
-          <span>{item[2]}</span>
+          <span className="ml-1">{item[2]}</span>
         </div>
       )) : (
         <>

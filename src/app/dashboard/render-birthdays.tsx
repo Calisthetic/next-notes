@@ -18,9 +18,6 @@ export default function RenderBirthdays() {
         },
       })
       .then((res) => {
-        if (res.status !== 200) {
-          throw new Error('Wrong data')
-        }
         return res.json();
       })
       .then(data => {

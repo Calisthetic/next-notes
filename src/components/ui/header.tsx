@@ -5,14 +5,12 @@ import { Suspense } from "react";
  
 export default function Header() {
   return (
-    <nav className="fixed bg-primary top-0 z-40 h-10 sm:h-12 px-1 sm:px-2 w-full">
+    <nav className="fixed bg-primary top-0 z-10 h-12 px-1 sm:px-2 w-full">
       <div className="flex items-center justify-between h-full">
         <div className="flex items-center justify-start">
-          <Link href="/" className="flex ml-1 sm:ml-2 md:mr-24">
-            <div>
-              <IconLogo classes="h-6 w-6 sm:w-8 sm:h-8 mr-1 sm:mr-3 fill-red-600"></IconLogo>
-            </div>
-            <span className="self-center sm:text-xl text-base font-semibold md:text-2xl whitespace-nowrap text-foreground text-red-600">NEXT NOTES</span>
+          <Link href="/" className="flex gap-x-1">
+            <IconLogo classes="w-8 h-8 fill-red-600"></IconLogo>
+            <span className="self-center sm:text-xl text-lg font-semibold md:text-2xl whitespace-nowrap text-foreground text-red-600">NEXT NOTES</span>
           </Link>
         </div>
         {/* User profile */}

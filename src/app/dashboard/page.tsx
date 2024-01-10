@@ -1,3 +1,5 @@
+'use client'
+
 import IconBirthday from "@/src/components/icons/icon-birthday";
 import IconCart from "@/src/components/icons/icon-cart";
 import IconNotes from "@/src/components/icons/icon-notes";
@@ -7,8 +9,18 @@ import RenderBirthdays from "./render-birthdays";
 import RenderTasks from "./render-tasks";
 import RenderProducts from "./render-products";
 import RenderNotes from "./render-notes";
+import Modal from "@/src/components/ui/modal";
+import { useState } from "react";
+
+interface SelectedNote {
+  id: string
+  title: string
+  text: string
+}
 
 export default function Dashboars () {
+  const [isNotesModalOpen, setIsNotesModalOpen] = useState(false);
+
 
   return (
     <div className="flex justify-center w-full px-2 pt-2">
@@ -65,15 +77,24 @@ export default function Dashboars () {
                 <IconNotes classes="h-8 w-8 fill-icon"></IconNotes>
                 <p className=" text-lg font-medium">Заметки</p>
               </div>
-              <RenderNotes></RenderNotes>
+              <RenderNotes count={4}></RenderNotes>
             </div>
             <div className="flex justify-between items-center">
               <div></div>
-              <ReadMoreButton path="/notes"></ReadMoreButton>
+              <ReadMoreButton onClick={() => setIsNotesModalOpen(!isNotesModalOpen)}></ReadMoreButton>
             </div>
           </div>
         </div>
       </div>
+
+      <Modal
+      isOpen={isNotesModalOpen}
+      setIsOpen={() => setIsNotesModalOpen(!isNotesModalOpen)}>
+        <div className="bg-primary p-3 m-2 rounded-lg max-w-xs w-full cursor-default">
+          <p className="text-lg font-medium">Заметки</p>
+          <RenderNotes></RenderNotes>
+        </div>
+      </Modal>
     </div>
   );
 }

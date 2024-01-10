@@ -44,8 +44,8 @@ export default function RootLayout({
       )}>
         <Providers>
           <Header />
-          <main className='flex flex-col min-h-screen pt-10 sm:pt-12'>
-            <div className='min-h-[calc(100dvh-40px)] sm:min-h-[calc(100dvh-48px)]'>
+          <main className='flex flex-col min-h-screen pt-12'>
+            <div className='min-h-[calc(100dvh-48px)]'>
               {children}
             </div>
           </main>

@@ -25,7 +25,7 @@ export default function CheckButton({checkOn, checkOff, defaultChecked}:CheckBut
         strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
           <polyline points="20 6 9 17 4 12"/>
         </svg>
-        <div className={cn("bg-primary h-5 w-5 transition-transform", {
+        <div className={cn("bg-primary h-5 w-5 duration-500 transition-transform", {
           "translate-x-5": state,
           "translate-x-0": !state
         })}></div>

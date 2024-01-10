@@ -43,9 +43,6 @@ export default function RenderTasks() {
       },
     })
     .then((res) => {
-      if (res.status !== 200) {
-        throw new Error('Error...')
-      }
       return res.json();
     })
     .then(() => {
@@ -59,7 +56,7 @@ export default function RenderTasks() {
   return (
     <div className="my-1">
       {response ? response.map((item) => (
-        <div key={item[0]} data-id={item[0]} className="flex flex-row flex-wrap: md:flex-nowrap my-0.5 gap-x-1 transition-opacity items-center">
+        <div key={item[0]} className="flex ml-0.5 flex-row md:flex-nowrap my-0.5 gap-x-1 transition-opacity items-center">
           <CheckButton defaultChecked={item[5] === "1" ? true : false} 
           checkOn={() => CompleteTask(item[0])} checkOff={() => CompleteTask(item[0])}></CheckButton>
           <span className="opacity-80 font-semibold ml-1">{item[3]}</span>
