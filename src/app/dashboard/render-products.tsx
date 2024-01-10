@@ -4,10 +4,14 @@ import CheckButton from "@/src/components/ui/check-btn";
 import useLocalStorage from "@/src/lib/hooks/useLocalStorage";
 import { useEffect, useState } from "react";
 
-export default function RenderProducts() {
+interface RenderProductsProps {
+  update: boolean
+}
+
+export default function RenderProducts({update}:RenderProductsProps) {
   const [userIdLS, setUserIdLS] = useLocalStorage("user-id", "");
   const [response, setResponse] = useState<string[]|null>(null);
-  const [isUpdate, setIsUpdate] = useState(true)
+  const [isUpdate, setIsUpdate] = useState(false)
   
   useEffect(() => {
     const fetchData = async () => {
@@ -29,10 +33,10 @@ export default function RenderProducts() {
       })
     }
     fetchData()
-  }, [isUpdate])
+  }, [isUpdate, update])
 
-  function RemoveProduct(productId: string) {
-    fetch("api/products-of-users/remove/"+productId, {
+  async function RemoveProduct(productId: string) {
+    await fetch("api/products-of-users/remove/"+productId, {
       method: 'DELETE',
       headers: {
         "Content-Type": "application/json",
@@ -40,9 +44,6 @@ export default function RenderProducts() {
       },
     })
     .then((res) => {
-      if (res.status !== 200) {
-        throw new Error('Error...')
-      }
       return res.json();
     })
     .then(() => {
@@ -54,9 +55,9 @@ export default function RenderProducts() {
   }
 
   return (
-    <div className="my-1">
+    <div className="my-1 flex flex-col md:grid md:grid-cols-2 md:gap-x-2 gap-y-0.5">
       {response ? response.map((item, index) => (
-        <div key={index} className="flex flex-row items-center md:flex-nowrap gap-x-1 ml-0.5 my-0.5">
+        <div key={index} className="flex flex-row items-center md:flex-nowrap gap-x-1 ml-0.5 ">
           <CheckButton defaultChecked={false} checkOn={() => RemoveProduct(item[0])}></CheckButton>
           <span className="ml-1">{item[2]}</span>
         </div>

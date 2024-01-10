@@ -29,8 +29,6 @@ export default async function handler(
 
     if (responseProductsOfUsers.status !== 200) {
       return res.status(responseProductsOfUsers.status).send({message: responseProductsOfUsers.statusText})
-    } else if (!responseProductsOfUsers.data.values) {
-      return res.status(200).send({data: []})
     } else if (!responseProducts.data.values) {
       return res.status(404).send({message: 'No products found'})
     } else if (!responseProductCategories.data.values) {
@@ -38,20 +36,19 @@ export default async function handler(
     }
     let productCategories = responseProductCategories.data.values.filter(x => x.length !== 0)
     let products = responseProducts.data.values.filter(x => x.length !== 0)
-    let productsOfUsers = responseProductsOfUsers.data.values.filter(x => x.length !== 0 && x[1] === userId)
+    let productsOfUsers = responseProductsOfUsers.data.values?.filter(x => x.length !== 0 && x[1] === userId)
     
-    for (let i = 0; i < productsOfUsers.length; i++) {
-      const productId = productsOfUsers[i][2]
-      const productObjectId = products.findIndex(x => x[0] === productId)
-      if (productObjectId === -1) {
-        return res.status(500).send({message: 'Something went wrong'})
+    for (let i = 0; i < products.length; i++) {
+      const categoryId = products[i][2]
+      products[i].push(productCategories[productCategories.findIndex(x => x[0] === categoryId)][1])
+      if (productsOfUsers) {
+        const productOfUserId = productsOfUsers.findIndex(x => x[2] === products[i][0])
+        products[i].push(productOfUserId !== -1 ? "1" : "0")
       }
-      productsOfUsers[i][2] = products[productObjectId][1]
-      const categotyId = products[productObjectId][2]
-      productsOfUsers[i].push(productCategories[categotyId - 1][1])
     }
+
     return res.status(200).json({
-      data: productsOfUsers
+      data: products
     })
   } catch(e:any) {
     return res.status(500).send({message: e.message ?? 'Something went wrong'})
