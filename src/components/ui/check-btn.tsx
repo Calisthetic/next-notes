@@ -10,17 +10,20 @@ interface CheckButtonProps {
 export default function CheckButton({checkOn, checkOff, defaultChecked}:CheckButtonProps) {
   const [state, setState] = useState(defaultChecked)
   function ChangeState() {
-    setState(!state)
     if (state) {
-      checkOn ? checkOn() : null
-    } else {
       checkOff ? checkOff() : null
+    } else {
+      checkOn ? checkOn() : null
     }
+    setState(!state)
   }
 
   return (
       <button onClick={() => ChangeState()}
-      className="rounded-full h-5 w-5 outline outline-1 outline-button overflow-hidden">
+      className={cn("rounded-full h-5 w-5 outline outline-1 overflow-hidden transition-all relative", {
+        "outline-button": state,
+        "outline-border": !state
+      })}>
         <svg fill="none" height="24" className="stroke-button h-5 w-5 absolute" strokeLinecap="round" 
         strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
           <polyline points="20 6 9 17 4 12"/>
