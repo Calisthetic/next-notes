@@ -36,7 +36,7 @@ export default function RenderTasks({update}:RenderTasksProps) {
       })
     }
     fetchData()
-  }, [isUpdate, update])
+  }, [isUpdate, userIdLS, update])
 
   function ManageTask(taskId:string) {
     fetch("api/tasks/manage/"+taskId, {

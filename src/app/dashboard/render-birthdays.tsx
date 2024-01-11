@@ -28,7 +28,7 @@ export default function RenderBirthdays() {
       })
     }
     fetchData()
-  }, [isUpdate])
+  }, [isUpdate, userIdLS])
 
   return (
     <div className="my-1">

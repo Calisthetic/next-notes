@@ -36,7 +36,7 @@ export default function NotesModal ({closeModal}: NotesModalProps) {
       })
     }
     fetchData()
-  }, [isUpdate])
+  }, [isUpdate, userIdLS])
 
   async function ManageTask(taskId:string) {
     fetch("api/notes/manage/" + taskId, {
@@ -61,7 +61,7 @@ export default function NotesModal ({closeModal}: NotesModalProps) {
   const [selectedNote, setSelectedNote] = useState<SelectedNote>()
   
   return (
-    <div className="bg-primary p-3 m-2 rounded-lg max-w-xs w-full cursor-default max-h-screen h-screen sm:h-auto 
+    <div className="bg-primary p-3 m-2 rounded-lg max-w-xs w-full cursor-default max-h-screen h-[calc(100vh-12px)] sm:h-auto 
     relative overflow-y-auto flex justify-between flex-col">
       {notesResponse ? (
         <>
@@ -85,8 +85,6 @@ export default function NotesModal ({closeModal}: NotesModalProps) {
               ))
             }
           </div>
-          <button className="sm:hidden bg-button text-button-foreground rounded-md py-0.5 mt-2 w-full"
-          onClick={closeModal}>Сохранить</button>
         </>
       ) : (
         <div className="flex flex-col">
@@ -97,6 +95,8 @@ export default function NotesModal ({closeModal}: NotesModalProps) {
           <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse max-w-[300px] mb-2.5"></div>
         </div>
       )}
+      <button className="sm:hidden bg-button text-button-foreground rounded-md py-0.5 mt-2 w-full"
+      onClick={closeModal}>Сохранить</button>
 
       <Modal
       isOpen={isSelectedNoteModalOpen}

@@ -1,3 +1,7 @@
+'use client'
+
+import { useEffect } from "react"
+
 interface ModalProps {
   children: React.ReactNode
   isOpen: boolean
@@ -9,7 +13,7 @@ export default function Modal({ children, isOpen, setIsOpen }: ModalProps) {
   const modalId = Math.random().toString(36)
 
   function backgroundClickHandler(event:React.MouseEvent<HTMLButtonElement>) {
-    if (event.target instanceof Element) {
+    if (event.target instanceof Element && (event.clientX !== 0 || event.clientY !== 0)) {
       if (event.target.id === modalId) {
         setIsOpen()
       }

@@ -1,7 +1,7 @@
 'use client'
 
 import useLocalStorage from "@/src/lib/hooks/useLocalStorage"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 interface ModalEditNotesProps {
   selectedNote?: SelectedNote
@@ -22,7 +22,7 @@ export default function ModalEditNotes({selectedNote, closeModal, setIsUpdate}: 
   const textInputRef = useRef<HTMLTextAreaElement>(null)
 
 
-  async function SendRequest() {
+  async function SendRequest(e: React.MouseEvent<HTMLButtonElement>) {
     setIsRequestSending(true)
     
     if (textInputRef.current && titleInputRef.current && selectedNote) {

@@ -34,7 +34,7 @@ export default function TasksModal ({closeModal}: TasksModalProps) {
       })
     }
     fetchData()
-  }, [isUpdate])
+  }, [isUpdate, userIdLS])
 
   async function ManageTask(taskId:string) {
     fetch("api/tasks/manage/" + taskId, {
@@ -56,7 +56,7 @@ export default function TasksModal ({closeModal}: TasksModalProps) {
   }
   
   return (
-    <div className="bg-primary p-3 m-2 rounded-lg max-w-xs w-full cursor-default max-h-screen h-screen sm:h-auto 
+    <div className="bg-primary p-3 m-2 rounded-lg max-w-xs w-full cursor-default max-h-screen h-[calc(100vh-12px)] sm:h-auto 
     relative overflow-y-auto flex justify-between flex-col">
       {tasksResponse ? (
         <>
@@ -64,7 +64,7 @@ export default function TasksModal ({closeModal}: TasksModalProps) {
             <p className="text-lg font-medium">Задания</p>
             {
               tasksResponse.map((item) => (
-                <div className="flex items-center flex-row my-0.5">
+                <div key={item[0]} className="flex items-center flex-row my-0.5">
                   <CheckButton defaultChecked={item[5] === "1"} 
                   checkOn={() => ManageTask(item[0])} checkOff={() => ManageTask(item[0])}></CheckButton>
                   <span className="opacity-80 font-semibold ml-1">{item[3]}</span>

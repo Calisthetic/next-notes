@@ -15,7 +15,7 @@ export default function RenderProducts({update}:RenderProductsProps) {
   
   useEffect(() => {
     const fetchData = async () => {
-      fetch("api/products-of-users", {
+      fetch("api/products", {
         method: 'GET',
         headers: {
           "Content-Type": "application/json",
@@ -26,17 +26,20 @@ export default function RenderProducts({update}:RenderProductsProps) {
         return res.json();
       })
       .then(data => {
-        setResponse(data.data)
+        setResponse(null)
+        setTimeout(() => {
+          setResponse(data.data)
+        }, 10);
       })
       .catch(error => {
         console.log(error.message)
       })
     }
     fetchData()
-  }, [isUpdate, update])
+  }, [isUpdate, userIdLS, update])
 
-  async function RemoveProduct(productId: string) {
-    await fetch("api/products-of-users/remove/"+productId, {
+  async function DeleteProduct(productId: string) {
+    await fetch("api/products/"+productId, {
       method: 'DELETE',
       headers: {
         "Content-Type": "application/json",
@@ -54,19 +57,43 @@ export default function RenderProducts({update}:RenderProductsProps) {
     })
   }
 
+  async function AddProduct(name: string, id: string) {
+    await fetch("api/products", {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+        "user-id": userIdLS
+      },
+      body: JSON.stringify({
+        name: name,
+        id: id
+      })
+    })
+    .then((res) => {
+      return res.json();
+    })
+    .then(() => {
+      //setIsUpdate(isUpdate)
+    })
+    .catch(error => {
+      console.log(error.message)
+    })
+  }
+
   return (
-    <div className="my-1 flex flex-col md:grid md:grid-cols-2 md:gap-x-2 gap-y-0.5">
+    <div className="my-1">
       {response ? response.map((item, index) => (
-        <div key={index} className="flex flex-row items-center md:flex-nowrap gap-x-1 ml-0.5 ">
-          <CheckButton defaultChecked={false} checkOn={() => RemoveProduct(item[0])}></CheckButton>
+        <div key={index} className="flex flex-row items-center md:flex-nowrap gap-x-1 ml-0.5 my-0.5">
+          <CheckButton defaultChecked={false} 
+          checkOn={() => DeleteProduct(item[0])} checkOff={() => AddProduct(item[2], item[0])}></CheckButton>
           <span className="ml-1">{item[2]}</span>
         </div>
       )) : (
         <>
-          <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse max-w-[360px] my-2.5"></div>
-          <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse mb-2.5"></div>
-          <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse max-w-[330px] mb-2.5"></div>
-          <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse max-w-[300px] mb-2.5"></div>
+          <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse max-w-[360px] mt-2.5"></div>
+          <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse mt-2.5"></div>
+          <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse max-w-[330px] mt-2.5"></div>
+          <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse max-w-[300px] mt-2.5"></div>
         </>
       )}
     </div>

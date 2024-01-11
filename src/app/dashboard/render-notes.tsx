@@ -35,8 +35,7 @@ export default function RenderNotes({count}:RenderNotesProps) {
       })
     }
     fetchData()
-  }, [isUpdate])
-
+  }, [isUpdate, userIdLS])
 
 
   const [isSelectedNoteModalOpen, setIsSelectedNoteModalOpen] = useState(false);
