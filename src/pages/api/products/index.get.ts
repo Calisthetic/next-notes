@@ -3,7 +3,7 @@ import getSheetClient from '@/src/lib/sheet-client';
 import { getSheetLetter } from '@/src/lib/sheet-letters';
 import { NextApiRequest, NextApiResponse } from "next"
 
-export default async function handler(
+export default async function GetProducts(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

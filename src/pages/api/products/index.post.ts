@@ -1,9 +1,10 @@
 import { Product } from '@/src/lib/api-classes/product';
+import { getId } from '@/src/lib/get-id';
 import getSheetClient from '@/src/lib/sheet-client';
 import { getSheetLetter } from '@/src/lib/sheet-letters';
 import { NextApiRequest, NextApiResponse } from "next"
 
-export default async function handler(
+export default async function CreateProducts(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -12,19 +13,38 @@ export default async function handler(
     if (!userId) {
       return res.status(401).send({message: 'Unauthorized'})
     }
+
+    const { name, id } = req.body
+    if (typeof name !== 'string') {
+      return res.status(400).send({message: 'Invalid values'})
+    }
+
+    let values:any[] = []
+    const names:string[] = name.split(/[;,.\n]+/)
+    for (let i = 0; i < names.length; i++) {
+      values.push([
+        id ? id : getId(),
+        userId,
+        names[i]
+      ])
+    }
+
     const sheets = await getSheetClient();
-    const responseProducts = await sheets.spreadsheets.values.get({
+    const response = await sheets.spreadsheets.values.append({
       spreadsheetId: process.env.GOOGLE_SHEET_ID,
-      range: "Products!A2:" + getSheetLetter(new Product([])),
+      range: "Products!A2" + ":" + getSheetLetter(new Product([])),
+      valueInputOption: "USER_ENTERED",
+      requestBody: {
+        values: values
+      }
     })
 
-    if (!responseProducts.data.values) {
+    if (!response.status) {
       return res.status(404).send({message: 'No products found'})
     }
-    let products = responseProducts.data.values.filter(x => x.length !== 0)
     
     return res.status(200).json({
-      data: products
+      message: "Product added"
     })
   } catch(e:any) {
     return res.status(500).send({message: e.message ?? 'Something went wrong'})
