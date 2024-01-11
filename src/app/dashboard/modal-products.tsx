@@ -57,7 +57,7 @@ export default function ProductsModal({closeModal}: ProductsModalProps) {
   }
   
   return (
-    <div className="bg-primary p-3 m-2 rounded-lg max-w-xs w-full cursor-default max-h-screen h-[calc(100vh-12px)] sm:h-auto 
+    <div className="bg-primary p-3 m-2 rounded-lg max-w-xs w-full cursor-default max-h-screen h-[calc(100dvh-12px)] sm:h-auto 
     relative overflow-y-auto flex flex-col justify-between">
       <div>
         <div>
