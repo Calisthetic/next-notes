@@ -25,15 +25,15 @@ export default function ModalEditNotes({selectedNote, closeModal, setIsUpdate}: 
   async function SendRequest(e: React.MouseEvent<HTMLButtonElement>) {
     setIsRequestSending(true)
     
-    if (textInputRef.current && titleInputRef.current && selectedNote) {
+    if (textInputRef.current && titleInputRef.current) {
       await fetch("api/notes", {
-        method: 'PATCH',
+        method: selectedNote ? 'PATCH' : 'POST',
         headers: {
           "Content-Type": "application/json",
           "user-id": userIdLS
         },
         body: JSON.stringify({
-          id: selectedNote.id,
+          id: selectedNote ? selectedNote.id : null,
           title: titleInputRef.current.value,
           text: textInputRef.current.value
         })

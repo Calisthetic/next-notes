@@ -26,7 +26,7 @@ export default function ProductsModal({closeModal}: ProductsModalProps) {
   }
 
   async function ProductsInputHandle(event: React.ChangeEvent<HTMLTextAreaElement>) {
-    setNewProductsRendered(event.target.value.split(/[;,.\n]+/))
+    setNewProductsRendered(event.target.value.split(/[;,\n]+/))
   }
 
   async function AddProducts() {
@@ -57,9 +57,12 @@ export default function ProductsModal({closeModal}: ProductsModalProps) {
   }
   
   return (
-    <div className="bg-primary p-3 m-2 rounded-lg max-w-xs w-full cursor-default max-h-screen h-[calc(100dvh-12px)] sm:h-auto 
-    relative overflow-y-auto flex flex-col justify-between">
-      <div>
+    <div className="bg-primary p-3 m-2 rounded-lg max-w-xs w-full cursor-default max-h-screen sm:h-auto 
+    relative overflow-y-auto flex flex-col justify-center">
+      <div className="relative">
+        <button className="absolute top-0 left-[calc(100%-20px)] child-hover:stroke-primary-foreground">
+          <IconClose classes="w-4 h-4 stroke-border transition hover:opacity-70"></IconClose>
+        </button>
         <div>
           <p className="text-lg font-medium">Продукты</p>
           <div className="flex flex-row items-end relative my-2">

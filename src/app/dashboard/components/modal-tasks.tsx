@@ -56,8 +56,8 @@ export default function TasksModal ({closeModal}: TasksModalProps) {
   }
   
   return (
-    <div className="bg-primary p-3 m-2 rounded-lg max-w-xs w-full cursor-default max-h-screen h-[calc(100vh-12px)] sm:h-auto 
-    relative overflow-y-auto flex justify-between flex-col">
+    <div className="bg-primary p-3 m-2 rounded-lg max-w-xs w-full cursor-default max-h-screen sm:h-auto 
+    relative overflow-y-auto flex justify-center flex-col">
       {tasksResponse ? (
         <>
           <div>

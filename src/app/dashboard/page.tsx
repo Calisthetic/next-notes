@@ -5,15 +5,15 @@ import IconCart from "@/src/components/icons/icon-cart";
 import IconNotes from "@/src/components/icons/icon-notes";
 import IconTasks from "@/src/components/icons/icon-tasks";
 import ReadMoreButton from "@/src/components/ui/read-more-btn";
-import RenderBirthdays from "./render-birthdays";
-import RenderTasks from "./render-tasks";
-import RenderProducts from "./render-products";
-import RenderNotes from "./render-notes";
+import RenderBirthdays from "./components/render-birthdays";
+import RenderTasks from "./components/render-tasks";
+import RenderProducts from "./components/render-products";
+import RenderNotes from "./components/render-notes";
 import Modal from "@/src/components/ui/modal";
 import { useEffect, useState } from "react";
-import ProductsModal from "./modal-products";
-import TasksModal from "./modal-tasks";
-import NotesModal from "./modal-notes";
+import ProductsModal from "./components/modal-products";
+import TasksModal from "./components/modal-tasks";
+import NotesModal from "./components/modal-notes";
 
 interface SelectedNote {
   id: string
@@ -26,13 +26,19 @@ export default function Dashboars () {
   const [isTasksModalOpen, setIsTasksModalOpen] = useState(false);
   const [isProductsModalOpen, setIsProductsModalOpen] = useState(false);
   const [isNotesModalOpen, setIsNotesModalOpen] = useState(false);
-  const [shouldProductsRender, setShouldProductsRender] = useState(false);
+  const [shouldProductsUpdate, setShouldProductsUpdate] = useState(false);
+  const [shouldNotesUpdate, setShouldNotesUpdate] = useState(false);
   
   useEffect(() => {
     if (!isProductsModalOpen) {
-      setShouldProductsRender(shouldProductsRender => !shouldProductsRender);
+      setShouldProductsUpdate(shouldProductsUpdate => !shouldProductsUpdate);
     }
-  }, [isProductsModalOpen, setShouldProductsRender]);
+  }, [isProductsModalOpen, setShouldProductsUpdate]);
+  useEffect(() => {
+    if (!isNotesModalOpen) {
+      setShouldNotesUpdate(shouldNotesUpdate => !shouldNotesUpdate);
+    }
+  }, [isNotesModalOpen, setShouldNotesUpdate]);
 
 
 
@@ -83,7 +89,7 @@ export default function Dashboars () {
                 <p className=" text-lg font-medium">Продукты</p>
               </div>
               <div className="ml-1">
-                <RenderProducts update={shouldProductsRender}></RenderProducts>
+                <RenderProducts update={shouldProductsUpdate}></RenderProducts>
               </div>
             </div>
             <div className="flex justify-between items-center">
@@ -98,7 +104,7 @@ export default function Dashboars () {
                 <p className=" text-lg font-medium">Заметки</p>
               </div>
               <div className="ml-1">
-                <RenderNotes count={4}></RenderNotes>
+                <RenderNotes update={shouldNotesUpdate} count={4}></RenderNotes>
               </div>
             </div>
             <div className="flex justify-between items-center">
@@ -113,8 +119,7 @@ export default function Dashboars () {
       isOpen={isBirthdaysModalOpen}
       setIsOpen={() => setIsBirthdaysModalOpen(!isBirthdaysModalOpen)}>
         <div className="bg-primary p-3 m-2 rounded-lg max-w-xs w-full cursor-default">
-          <p className="text-lg font-medium">Заметки</p>
-          <RenderNotes></RenderNotes>
+          <p className="text-lg font-medium">Днюхи</p>
         </div>
       </Modal>
 
