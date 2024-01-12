@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import GetNotes from './index.get';
-import PatchNotes from './index.patch';
-import CreateNote from './index.post';
+import GetNotes from "./[noteId].get";
+import DeleteNote from "./[noteId].delete";
 
 export default async function handler(
   req: NextApiRequest,
@@ -9,13 +8,10 @@ export default async function handler(
 ) {
   switch (req.method) {
     case 'GET':
-      await GetNotes(req, res)
+      GetNotes(req, res);
       break;
-    case 'PATCH':
-      await PatchNotes(req, res)
-      break;
-    case 'POST':
-      await CreateNote(req, res)
+    case 'DELETE':
+      DeleteNote(req, res);
       break;
     default:
       // Invalid method

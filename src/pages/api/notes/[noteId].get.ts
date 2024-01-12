@@ -3,12 +3,13 @@ import getSheetClient from '@/src/lib/sheet-client';
 import { getSheetLetter } from '@/src/lib/sheet-letters';
 import { NextApiRequest, NextApiResponse } from "next"
 
-export default async function handler(
+export default async function GetNotes(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   try {
-    const { count } = req.query
+    const { noteId } = req.query
+    const count = noteId
     if (!count || Array.isArray(count) || isNaN(parseInt(count)) || parseInt(count) < 1) {
       return res.status(400).send({message: 'Bad request'})
     }
