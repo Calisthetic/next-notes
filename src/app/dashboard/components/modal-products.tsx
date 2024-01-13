@@ -60,7 +60,8 @@ export default function ProductsModal({closeModal}: ProductsModalProps) {
     <div className="bg-primary p-3 m-2 rounded-lg max-w-xs w-full cursor-default max-h-screen sm:h-auto 
     relative overflow-y-auto flex flex-col justify-center">
       <div className="relative">
-        <button className="absolute top-0 left-[calc(100%-20px)] child-hover:stroke-primary-foreground">
+        <button className="absolute top-0 left-[calc(100%-20px)] child-hover:stroke-primary-foreground"
+        onClick={closeModal}>
           <IconClose classes="w-4 h-4 stroke-border transition hover:opacity-70"></IconClose>
         </button>
         <div>
@@ -74,18 +75,24 @@ export default function ProductsModal({closeModal}: ProductsModalProps) {
             focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-input transition-colors duration-300"/>
           </div>
           {newProductsRendered ? newProductsRendered.map((item, index) => (
-            <div key={index} className="flex items-center flex-row my-0.5">
-              <span className="ml-1">{item}</span>
-            </div>
+            index < newProductsRendered.length - 1 ? (
+              <div key={index} className="flex items-center text-start flex-row my-0.5 border-b border-border">
+                <span className="ml-1">{item}</span>
+              </div>
+            ) : (
+              <div key={index} className="flex items-center text-start flex-row my-0.5">
+                <span className="ml-1">{item}</span>
+              </div>
+            )
           )) : null}
         </div>
       </div>
-      <button className="w-full font-medium rounded-md
+      <button className="w-full font-medium rounded-md mt-2
       bg-button text-button-foreground hover:bg-button-hover transition-colors"
       onClick={AddProducts}>
         {isRequestSending ? (
           <div className="animate-spin inline-block mt-1 w-4 h-4 border-[3px] border-current border-t-transparent text-button-foreground rounded-full" role="status" aria-label="loading">
-            <span className="sr-only">Loading...</span>
+            <span className="sr-only">Sending...</span>
           </div>
         ) : "Сохранить"}
       </button>

@@ -4,7 +4,7 @@ import getSheetClient from '@/src/lib/sheet-client';
 import { getSheetLetter } from '@/src/lib/sheet-letters';
 import { NextApiRequest, NextApiResponse } from "next"
 
-export default async function CreateProducts(
+export default async function CreateProduct(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -22,6 +22,10 @@ export default async function CreateProducts(
     let values:any[] = []
     const names:string[] = name.split(/[;,.\n]+/)
     for (let i = 0; i < names.length; i++) {
+      names[i] = names[i].trim()
+      if(names[i].length === 0) {
+        continue
+      }
       values.push([
         id ? id : getId(),
         userId,
@@ -40,11 +44,11 @@ export default async function CreateProducts(
     })
 
     if (!response.status) {
-      return res.status(404).send({message: 'No products found'})
+      return res.status(404).send({message: 'No product created'})
     }
     
     return res.status(200).json({
-      message: "Product added"
+      message: "Product created successfully"
     })
   } catch(e:any) {
     return res.status(500).send({message: e.message ?? 'Something went wrong'})

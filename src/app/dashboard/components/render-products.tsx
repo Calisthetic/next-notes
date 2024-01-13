@@ -83,10 +83,10 @@ export default function RenderProducts({update}:RenderProductsProps) {
   return (
     <div className="my-1">
       {response ? response.map((item, index) => (
-        <div key={index} className="flex flex-row items-center md:flex-nowrap gap-x-1 ml-0.5 my-0.5">
+        <div key={index} className="flex flex-row items-center md:flex-nowrap gap-x-1 ml-0.5 my-0.5 relative">
           <CheckButton defaultChecked={false} 
           checkOn={() => DeleteProduct(item[0])} checkOff={() => AddProduct(item[2], item[0])}></CheckButton>
-          <span className="ml-1">{item[2]}</span>
+          <span className="ml-1 max-w-[calc(100%-2.5rem)]">{item[2]}</span>
         </div>
       )) : (
         <>

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import GetProducts from "./index.get";
-import CreateProducts from "./index.post";
+import CreateProduct from "./index.post";
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,7 +11,7 @@ export default async function handler(
       GetProducts(req, res);
       break;
     case 'POST':
-      CreateProducts(req, res);
+      CreateProduct(req, res);
       break;
     default:
       // Invalid method
