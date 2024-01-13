@@ -61,11 +61,11 @@ export default function RenderTasks({update}:RenderTasksProps) {
     <div className="my-1">
       {response ? response.map((item) => (
         <div key={item[0]} className="flex ml-0.5 flex-row md:flex-nowrap my-0.5 gap-x-1 transition-opacity items-center">
-          <CheckButton defaultChecked={item[5] === "1" ? true : false} 
+          <CheckButton defaultChecked={item[4] === "1" ? true : false} 
           checkOn={() => ManageTask(item[0])} checkOff={() => ManageTask(item[0])}></CheckButton>
-          <span className="opacity-80 font-semibold ml-1">{item[3]}</span>
+          <span className="opacity-80 font-semibold ml-1">{item[2]}</span>
           <span className="mx-1">-</span>
-          <span>{item[2]}</span>
+          <span>{item[3]}</span>
         </div>
       )) : (
         <>
