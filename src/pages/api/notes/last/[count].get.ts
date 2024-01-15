@@ -26,10 +26,10 @@ export default async function GetNotes(
         data: []
       })
     }
-    let notes = response.data.values.filter(x => x.length > 0 && x[1] === userId && x[4] == "0")
+    let notes = response.data.values.filter(x => x.length > 0 && x[1] === userId && x[4] == "0").reverse()
     
     return res.status(200).json({
-      data: notes.length <= parseInt(count) ? notes : notes.slice(-parseInt(count))
+      data: notes.length <= parseInt(count) ? notes : notes.slice(0, parseInt(count))
     })
   } catch(e:any) {
     return res.status(500).send({message: e.message ?? 'Something went wrong'})
