@@ -3,22 +3,21 @@
 import Modal from "@/src/components/ui/modal";
 import useLocalStorage from "@/src/lib/hooks/useLocalStorage";
 import { useEffect, useState } from "react";
-import ModalEditNotes, { SelectedNote } from "./modal-edit-notes";
+import ModalEditNotes, { SelectedNote } from "./modal-add-edit-notes";
 
 
 interface RenderNotesProps {
-  count?: number
   update: boolean
 }
 
-export default function RenderNotes({count, update}:RenderNotesProps) {
+export default function RenderNotes({update}:RenderNotesProps) {
   const [userIdLS, setUserIdLS] = useLocalStorage("user-id", "");
   const [response, setResponse] = useState<string[]|null>(null);
   const [isUpdate, setIsUpdate] = useState(true)
   
   useEffect(() => {
     const fetchData = async () => {
-      fetch("api/notes/" + (count ? count : "4"), {
+      fetch("api/notes/last/4", {
         method: 'GET',
         headers: {
           "Content-Type": "application/json",
@@ -45,10 +44,9 @@ export default function RenderNotes({count, update}:RenderNotesProps) {
   return (
     <div className="my-1 flex flex-col gap-x-1">
       {response ? response.map((item, index) => (
-        <div key={index} data-id={item[0]} className="rendered-note flex relative overflow-x-hidden transition-shadow rounded px-1">
+        <div key={index} data-id={item[0]} className="rendered-note relative overflow-x-hidden transition-shadow rounded px-1">
           <span className="font-semibold">{item[2]}</span>
-          <span className="text-icon mx-1 font-semibold">-</span>
-          <button className="truncate hover:underline opacity-80 text-start flex flex-row rounded px-0.5"
+          <button className="truncate hover:underline opacity-80 text-start flex flex-row rounded"
           onClick={() => {
             setSelectedNote({
               id: item[0],

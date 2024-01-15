@@ -38,9 +38,33 @@ export default function RenderTasks({update}:RenderTasksProps) {
     fetchData()
   }, [isUpdate, userIdLS, update])
 
-  function ManageTask(taskId:string) {
-    fetch("api/tasks/manage/"+taskId, {
-      method: 'PATCH',
+  function RestoreTask(taskId:string, time:string, text:string) {
+    fetch("api/tasks", {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+        "user-id": userIdLS
+      },
+      body: JSON.stringify({
+        id: taskId,
+        time: time,
+        text: text
+      })
+    })
+    .then((res) => {
+      return res.json();
+    })
+    .then(() => {
+      //setIsUpdate(isUpdate)
+    })
+    .catch(error => {
+      console.log(error.message)
+    })
+  }
+
+  function DeleteTask(taskId:string) {
+    fetch("api/tasks/"+taskId, {
+      method: 'DELETE',
       headers: {
         "Content-Type": "application/json",
         "user-id": userIdLS
@@ -60,12 +84,15 @@ export default function RenderTasks({update}:RenderTasksProps) {
   return (
     <div className="my-1">
       {response ? response.map((item) => (
-        <div key={item[0]} className="flex ml-0.5 flex-row md:flex-nowrap my-0.5 gap-x-1 transition-opacity items-center">
-          <CheckButton defaultChecked={item[4] === "1" ? true : false} 
-          checkOn={() => ManageTask(item[0])} checkOff={() => ManageTask(item[0])}></CheckButton>
-          <span className="opacity-80 font-semibold ml-1">{item[2]}</span>
-          <span className="mx-1">-</span>
-          <span>{item[3]}</span>
+        <div key={item[0]} className="flex ml-0.5 flex-row md:flex-nowrap my-0.5 gap-x-1 transition-opacity">
+          <div className="mt-1">
+            <CheckButton defaultChecked={item[4] === "1" ? true : false} checkOn={() => DeleteTask(item[0])}
+            checkOff={() => RestoreTask(item[0], item[2], item[3])}></CheckButton>
+          </div>
+          <div className="flex flex-col ml-1 sm:flex-row max-w-[calc(100%-30px)] sm:max-w-[calc(100%-30px)]">
+            <span className="opacity-80 sm:mr-2 font-semibold">{item[2]}</span>
+            <span>{item[3]}</span>
+          </div>
         </div>
       )) : (
         <>

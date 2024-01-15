@@ -9,8 +9,8 @@ export default function Header() {
       <div className="flex items-center justify-between h-full">
         <div className="flex items-center justify-start">
           <Link href="/" className="flex gap-x-1">
-            <IconLogo classes="w-8 h-8 fill-red-600"></IconLogo>
-            <span className="self-center sm:text-xl text-lg font-semibold md:text-2xl whitespace-nowrap text-foreground text-red-600">NEXT NOTES</span>
+            <IconLogo classes="w-8 h-8 fill-icon"></IconLogo>
+            <span className="self-center text-xl font-semibold md:text-2xl whitespace-nowrap text-foreground text-icon">NEXT NOTES</span>
           </Link>
         </div>
         {/* User profile */}

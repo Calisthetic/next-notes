@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import ProductsModal from "./components/modal-products";
 import TasksModal from "./components/modal-tasks";
 import NotesModal from "./components/modal-notes";
+import BirthdaysModal from "./components/modal-birthdays";
 
 interface SelectedNote {
   id: string
@@ -28,7 +29,19 @@ export default function Dashboars () {
   const [isNotesModalOpen, setIsNotesModalOpen] = useState(false);
   const [shouldProductsUpdate, setShouldProductsUpdate] = useState(false);
   const [shouldNotesUpdate, setShouldNotesUpdate] = useState(false);
+  const [shouldBirthdaysUpdate, setShouldBirthdaysUpdate] = useState(false);
+  const [shouldTasksUpdate, setShouldTasksUpdate] = useState(false);
   
+  useEffect(() => {
+    if (!isBirthdaysModalOpen) {
+      setShouldBirthdaysUpdate(shouldBirthdaysUpdate => !shouldBirthdaysUpdate);
+    }
+  }, [isBirthdaysModalOpen, setShouldBirthdaysUpdate]);
+  useEffect(() => {
+    if (!isTasksModalOpen) {
+      setShouldTasksUpdate(shouldTasksUpdate => !shouldTasksUpdate);
+    }
+  }, [isTasksModalOpen, setShouldTasksUpdate]);
   useEffect(() => {
     if (!isProductsModalOpen) {
       setShouldProductsUpdate(shouldProductsUpdate => !shouldProductsUpdate);
@@ -55,7 +68,7 @@ export default function Dashboars () {
                 <p className=" text-lg font-medium">Ближайшие днюхи</p>
               </div>
               <div className="ml-1">
-                <RenderBirthdays></RenderBirthdays>
+                <RenderBirthdays update={shouldBirthdaysUpdate}></RenderBirthdays>
               </div>
             </div>
             <div className="flex justify-between items-center">
@@ -70,7 +83,7 @@ export default function Dashboars () {
                 <p className=" text-lg font-medium">Задания</p>
               </div>
               <div className="ml-1">
-                <RenderTasks update={isTasksModalOpen}></RenderTasks>
+                <RenderTasks update={shouldTasksUpdate}></RenderTasks>
               </div>
             </div>
             <div className="flex justify-between items-center">
@@ -104,7 +117,7 @@ export default function Dashboars () {
                 <p className=" text-lg font-medium">Заметки</p>
               </div>
               <div className="ml-1">
-                <RenderNotes update={shouldNotesUpdate} count={4}></RenderNotes>
+                <RenderNotes update={shouldNotesUpdate}></RenderNotes>
               </div>
             </div>
             <div className="flex justify-between items-center">
@@ -118,9 +131,7 @@ export default function Dashboars () {
       <Modal
       isOpen={isBirthdaysModalOpen}
       setIsOpen={() => setIsBirthdaysModalOpen(!isBirthdaysModalOpen)}>
-        <div className="bg-primary p-3 m-2 rounded-lg max-w-xs w-full cursor-default">
-          <p className="text-lg font-medium">Днюхи</p>
-        </div>
+        <BirthdaysModal closeModal={() => setIsBirthdaysModalOpen(!isBirthdaysModalOpen)}></BirthdaysModal>
       </Modal>
 
       <Modal

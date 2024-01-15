@@ -3,7 +3,12 @@
 import useLocalStorage from "@/src/lib/hooks/useLocalStorage";
 import { useEffect, useState } from "react";
 
-export default function RenderBirthdays() {
+interface RenderBirthdaysProps {
+  update: boolean
+}
+
+
+export default function RenderBirthdays({update}: RenderBirthdaysProps) {
   const [userIdLS, setUserIdLS] = useLocalStorage("user-id", "");
   const [response, setResponse] = useState<string[]|null>(null);
   const [isUpdate, setIsUpdate] = useState(true)
@@ -28,7 +33,7 @@ export default function RenderBirthdays() {
       })
     }
     fetchData()
-  }, [isUpdate, userIdLS])
+  }, [isUpdate, userIdLS, update])
 
   return (
     <div className="my-1">

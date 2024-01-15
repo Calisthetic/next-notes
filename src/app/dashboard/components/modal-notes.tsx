@@ -1,11 +1,10 @@
 'use client'
 
 import IconClose from "@/src/components/icons/icon-close";
-import CheckButton from "@/src/components/ui/check-btn";
 import Modal from "@/src/components/ui/modal";
 import useLocalStorage from "@/src/lib/hooks/useLocalStorage";
-import { useCallback, useEffect, useState } from "react";
-import ModalEditNotes, { SelectedNote } from "./modal-edit-notes";
+import { useEffect, useState } from "react";
+import ModalAddEditNotes, { SelectedNote } from "./modal-add-edit-notes";
 import CheckButton2 from "@/src/components/ui/check-btn2";
 import IconAdd from "@/src/components/icons/icon-add";
 
@@ -17,10 +16,11 @@ export default function NotesModal ({closeModal}: NotesModalProps) {
   const [notesResponse, setNotesResponse] = useState<any[]>()
   const [userIdLS, setUserIdLS] = useLocalStorage("user-id", "");
   const [isUpdate, setIsUpdate] = useState(true)
+  const [isNewNotes, setIsNewNotes] = useState(true)
   
   useEffect(() => {
     const fetchData = async () => {
-      fetch("api/notes", {
+      fetch("api/notes?type=" + (isNewNotes ? "new" : "old"), {
         method: 'GET',
         headers: {
           "Content-Type": "application/json",
@@ -31,23 +31,24 @@ export default function NotesModal ({closeModal}: NotesModalProps) {
         return res.json();
       })
       .then(data => {
-        setNotesResponse(data.data)
+        setNotesResponse(undefined)
+        setTimeout(() => {
+          setNotesResponse(data.data)
+        }, 10);
       })
       .catch(error => {
         console.log(error.message)
       })
     }
     fetchData()
-  }, [isUpdate, userIdLS])
+  }, [isUpdate, userIdLS, isNewNotes])
   
   const [isSelectedNoteModalOpen, setIsSelectedNoteModalOpen] = useState(false);
   const [selectedNote, setSelectedNote] = useState<SelectedNote>()
-  const [isRequestSending, setIsRequestSending] = useState(false)
 
-  async function DeleteNote(deletingId:string) {
-    setIsRequestSending(true)
-    await fetch("api/notes/" + deletingId, {
-      method: 'DELETE',
+  async function PatchArchiveNote(deletingId:string) {
+    await fetch("api/notes/archive/" + deletingId, {
+      method: 'PATCH',
       headers: {
         "Content-Type": "application/json",
         "user-id": userIdLS
@@ -58,56 +59,38 @@ export default function NotesModal ({closeModal}: NotesModalProps) {
     })
     .then(() => {
       setIsUpdate(isUpdate)
-      setIsRequestSending(false)
     })
     .catch(error => {
       console.log(error.message)
     })
-    setIsRequestSending(false)
-  }
-
-  async function RestoreNote(id:string, title: string, text: string) {
-    setIsRequestSending(true)
-    await fetch("api/notes", {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json",
-        "user-id": userIdLS
-      },
-      body: JSON.stringify({
-        id: id,
-        title: title,
-        text: text
-      })
-    })
-    .then((res) => {
-      return res.json();
-    })
-    .then(() => {
-      setIsUpdate(isUpdate)
-      setIsRequestSending(false)
-    })
-    .catch(error => {
-      console.log(error.message)
-    })
-    setIsRequestSending(false)
   }
   
   return (
     <div className="bg-primary p-3 m-2 rounded-lg max-w-xs w-full cursor-default max-h-screen sm:h-auto 
     relative overflow-y-auto overflow-x-hidden flex justify-center flex-col">
       {notesResponse ? (
-        <>
-          <div>
-            <p className="text-lg font-medium">Заметки</p>
-            {
-              notesResponse.map((item, index) => (
-                <div key={index} data-id={item[0]} className="rendered-note my-0.5 flex relative overflow-x-hidden transition-shadow rounded px-1">
-                  <CheckButton2 defaultChecked={true} checkOff={() => DeleteNote(item[0])} 
-                  checkOn={() => RestoreNote(item[0], item[2], item[3])}></CheckButton2>
-                  <span className="ml-2 font-semibold">{item[2]}</span>
-                  <span className="text-icon mx-1 font-semibold">-</span>
-                  <button className="truncate hover:underline opacity-80 text-start flex flex-row rounded px-0.5"
+        <div className="relative">
+          <button className="absolute top-0 left-[calc(100%-20px)] child-hover:stroke-primary-foreground"
+          onClick={closeModal}>
+            <IconClose classes="w-4 h-4 stroke-border transition hover:opacity-70"></IconClose>
+          </button>
+          <button className="text-lg font-medium hover:underline"
+          onClick={() => setIsNewNotes(!isNewNotes)}>
+            {isNewNotes ? "Недавние заметки" : "Заметки в архиве"}
+          </button>
+          {
+            notesResponse.length === 0 ? (
+              <div className="my-1 font-medium text-secondary-foreground">Заметок нет...</div>
+            ) : notesResponse.map((item, index) => (
+              <div key={index} data-id={item[0]} className="rendered-note my-0.5 
+              items-center flex relative overflow-x-hidden transition-shadow rounded px-1">
+                <div className="flex items-center h-full justify-center mr-1">
+                  <CheckButton2 defaultChecked={item[4] === "0"} checkOff={() => PatchArchiveNote(item[0])} 
+                  checkOn={() => PatchArchiveNote(item[0])}></CheckButton2>
+                </div>
+                <div className="flex flex-col items-start">
+                  <span className="px-0.5 text-start truncate max-w-[240px] font-semibold">{item[2]}</span>
+                  <button className="flex flex-col px-0.5 items-start hover:underline transition-opacity"
                   onClick={() => {
                     setSelectedNote({
                       id: item[0],
@@ -116,13 +99,13 @@ export default function NotesModal ({closeModal}: NotesModalProps) {
                     } as SelectedNote);
                     setIsSelectedNoteModalOpen(true)
                   }}>
-                    {item[3]}
+                    <span className="truncate max-w-[240px] opacity-80">{item[3]}</span>
                   </button>
                 </div>
-              ))
-            }
-          </div>
-        </>
+              </div>
+            ))
+          }
+        </div>
       ) : (
         <div className="flex flex-col">
           <p className="text-lg font-medium">Заметки</p>
@@ -132,26 +115,20 @@ export default function NotesModal ({closeModal}: NotesModalProps) {
           <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse max-w-[300px] mb-2.5"></div>
         </div>
       )}
-      <div className="flex mt-1 justify-center">
+      <div className="flex mt-2 justify-center">
         <button className="w-7 h-7 rounded-full flex justify-center items-center bg-secondary hover:opacity-80 transition-opacity"
-        onClick={() => setIsSelectedNoteModalOpen(!isSelectedNoteModalOpen)}>
+        onClick={() => {
+          setSelectedNote(undefined)
+          setIsSelectedNoteModalOpen(!isSelectedNoteModalOpen)
+        }}>
           <IconAdd classes="stroke-button w-7 h-7 transition-opacity"></IconAdd>
         </button>
       </div>
-      <button className="w-full font-medium rounded-md mt-4
-      bg-button text-button-foreground hover:bg-button-hover transition-colors"
-      onClick={() => isRequestSending ? null : closeModal()}>
-        {isRequestSending ? (
-          <div className="animate-spin inline-block mt-1 w-4 h-4 border-[3px] border-current border-t-transparent text-button-foreground rounded-full" role="status" aria-label="loading">
-            <span className="sr-only">Loading...</span>
-          </div>
-        ) : "Сохранить"}
-      </button>
 
       <Modal
       isOpen={isSelectedNoteModalOpen}
       setIsOpen={() => setIsSelectedNoteModalOpen(!isSelectedNoteModalOpen)}>
-        <ModalEditNotes
+        <ModalAddEditNotes
           selectedNote={selectedNote}
           setIsUpdate={() => setIsUpdate(!isUpdate)}
           closeModal={() => setIsSelectedNoteModalOpen(!isSelectedNoteModalOpen)}

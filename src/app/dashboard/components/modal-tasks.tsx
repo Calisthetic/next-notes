@@ -40,9 +40,33 @@ export default function TasksModal ({closeModal}: TasksModalProps) {
     fetchData()
   }, [isUpdate, userIdLS])
 
-  async function ManageTask(taskId:string) {
-    fetch("api/tasks/manage/" + taskId, {
-      method: 'PATCH',
+  function RestoreTask(taskId:string, time:string, text:string) {
+    fetch("api/tasks", {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+        "user-id": userIdLS
+      },
+      body: JSON.stringify({
+        id: taskId,
+        time: time,
+        text: text
+      })
+    })
+    .then((res) => {
+      return res.json();
+    })
+    .then(() => {
+      //setIsUpdate(isUpdate)
+    })
+    .catch(error => {
+      console.log(error.message)
+    })
+  }
+
+  function DeleteTask(taskId:string) {
+    fetch("api/tasks/"+taskId, {
+      method: 'DELETE',
       headers: {
         "Content-Type": "application/json",
         "user-id": userIdLS
@@ -70,8 +94,8 @@ export default function TasksModal ({closeModal}: TasksModalProps) {
         <p className="text-lg font-medium">Задания</p>
         {tasksResponse ? tasksResponse.map((item) => (
           <div key={item[0]} className="flex items-center flex-row my-0.5">
-            <CheckButton defaultChecked={item[4] === "1"} 
-            checkOn={() => ManageTask(item[0])} checkOff={() => ManageTask(item[0])}></CheckButton>
+            <CheckButton defaultChecked={item[4] === "1"} checkOn={() => DeleteTask(item[0])} 
+            checkOff={() => RestoreTask(item[0], item[2], item[3])}></CheckButton>
             <span className="opacity-80 font-semibold ml-2">{item[2]}</span>
             <span className="mx-1">-</span>
             <span>{item[3]}</span>
