@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import GetBirthdays from "./[count].get";
+import GetBirthdays from "./[number].get";
 
 export default async function handler(
   req: NextApiRequest,

@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import IconAdd from "@/src/components/icons/icon-add";
 import ModalAddEditBirthdays, { SelectedBirthday } from "./modal-add-edit-birthdays";
 import CheckButton from "@/src/components/ui/check-btn";
+import IconRemove from "@/src/components/icons/icon-remove";
 
 interface BirthdaysModalProps {
   closeModal: () => void;
@@ -15,11 +16,12 @@ interface BirthdaysModalProps {
 export default function BirthdaysModal ({closeModal}: BirthdaysModalProps) {
   const [birthdaysResponse, setBirthdaysResponse] = useState<any[]>()
   const [userIdLS, setUserIdLS] = useLocalStorage("user-id", "");
-  const [isUpdate, setIsUpdate] = useState(true)
+  const [isUpdate, setIsUpdate] = useState<boolean>(true)
+  const [pageNumber, setPageNumber] = useState<number>(0)
   
   useEffect(() => {
     const fetchData = async () => {
-      fetch("api/birthdays", {
+      fetch("api/birthdays/pages/" + pageNumber, {
         method: 'GET',
         headers: {
           "Content-Type": "application/json",
@@ -37,7 +39,7 @@ export default function BirthdaysModal ({closeModal}: BirthdaysModalProps) {
       })
     }
     fetchData()
-  }, [isUpdate, userIdLS])
+  }, [isUpdate, userIdLS, pageNumber])
 
   async function DeleteBirthday(id:string) {
     await fetch("api/birthdays/" + id, {
@@ -84,11 +86,19 @@ export default function BirthdaysModal ({closeModal}: BirthdaysModalProps) {
           onClick={closeModal}>
             <IconClose classes="w-4 h-4 stroke-border transition hover:opacity-70"></IconClose>
           </button>
+          <div className="absolute top-0 left-0 text-secondary-foreground child:px-0.5">
+            <button className="child-hover:fill-primary-foreground"
+            onClick={() => setPageNumber(pageNumber === 0 ? 0 : pageNumber - 1)}>
+              <IconRemove classes="w-5 h-5 fill-border transition hover:opacity-70"></IconRemove>
+            </button>
+            <button className="child-hover:fill-primary-foreground"
+            onClick={() => setPageNumber((birthdaysResponse && birthdaysResponse.length !== 12) ? pageNumber : pageNumber + 1)}>
+              <IconAdd classes="w-5 h-5 fill-border transition hover:opacity-70"></IconAdd>
+            </button>
+          </div>
           {
-            birthdaysResponse.length === 0 ? (
-              <div className="my-1 font-medium text-secondary-foreground">Заметок нет...</div>
-            ) : birthdaysResponse.map((item, index) => (
-              <div key={index} data-id={item[0]} className="rendered-note my-0.5 
+            birthdaysResponse.map((item, index) => (
+              <div key={index} data-id={item[0]} className="my-0.5 
               items-start flex relative overflow-x-hidden transition-shadow rounded px-1">
                 <div className="pt-0.5 pr-0.5 flex items-center h-full justify-center">
                   <CheckButton defaultChecked={true} checkOff={() => DeleteBirthday(item[0])} 
@@ -113,10 +123,18 @@ export default function BirthdaysModal ({closeModal}: BirthdaysModalProps) {
               </div>
             ))
           }
+          {(birthdaysResponse && birthdaysResponse.length < 12) ? (
+            Array(12 - birthdaysResponse.length).fill('').map((_, index) => (
+              <div key={index} className="rendered-note h-6 my-0.5 flex justify-center font-medium
+              items-start relative overflow-x-hidden transition-shadow rounded px-1 text-secondary-foreground">
+                {index === 0 ? "Днюх больше нет..." : null}
+              </div>
+            ))
+          ) : null}
         </div>
       ) : (
         <div className="flex flex-col">
-          <p className="text-lg font-medium">Заметки</p>
+          <p className="text-lg font-medium">Днюхи</p>
           <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse max-w-[360px] my-2.5"></div>
           <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse mb-2.5"></div>
           <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse max-w-[330px] mb-2.5"></div>
@@ -128,7 +146,7 @@ export default function BirthdaysModal ({closeModal}: BirthdaysModalProps) {
         onClick={() => {
           setIsNewBirthdayModalOpen(!isNewBirthdayModalOpen)
         }}>
-          <IconAdd classes="stroke-button w-7 h-7 transition-opacity"></IconAdd>
+          <IconAdd classes="fill-button w-6 h-6 transition-opacity"></IconAdd>
         </button>
       </div>
 
