@@ -1,13 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import GetTasks from "./[count].get";
+import DeleteTask from "./[taskId].delete";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   switch (req.method) {
-    case 'GET':
-      GetTasks(req, res);
+    case 'DELETE':
+      DeleteTask(req, res);
       break;
     default:
       // Invalid method

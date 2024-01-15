@@ -14,7 +14,7 @@ export default async function CreateTask(
       return res.status(401).send({message: 'Unauthorized'})
     }
 
-    const { time, text } = req.body
+    const { id, time, text } = req.body
     if (typeof time !== 'string' || typeof text !== 'string') {
       return res.status(400).send({message: 'Invalid values'})
     }
@@ -25,9 +25,12 @@ export default async function CreateTask(
       range: "Tasks!A2" + ":" + getSheetLetter(new Task([])),
       valueInputOption: "USER_ENTERED",
       requestBody: {
-        values: [
-          [getId(), userId, time, text, "0"]
-        ]
+        values: [[
+          id ? id : getId(), 
+          userId,
+          time,
+          text
+        ]]
       }
     })
 

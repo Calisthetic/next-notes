@@ -4,16 +4,13 @@ import getSheetClient from '@/src/lib/sheet-client';
 import { getSheetLetter } from '@/src/lib/sheet-letters';
 import { NextApiRequest, NextApiResponse } from "next"
 
-export default async function handler(
+export default async function DeleteTask(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   try {
-    if (req.method !== 'PATCH') {
-      res.status(405).send({message: 'Only PATCH requests are allowed'})
-    }
-    const { id } = req.query
-    if (!id || Array.isArray(id)) {
+    const { taskId } = req.query
+    if (!taskId || Array.isArray(taskId)) {
       return res.status(400).send({message: 'Bad request'})
     }
     const userId = req.headers["user-id"]
@@ -28,13 +25,10 @@ export default async function handler(
     if (!response.data.values) {
       return res.status(500).json({message: 'Something went wrong'})
     }
-    const tasksData = response.data.values.filter(x => x.length > 0 && x[1] === userId && x[0] === id)
-    if (tasksData && tasksData.length !== 1) {
+    const rowId = response.data.values.findIndex(x => x.length > 0 && x[1] === userId && x[0] === taskId) + 2
+    if (rowId === 1) {
       return res.status(404).json({message: 'Task not found'})
     }
-    let currentTask = tasksData[0]
-    currentTask[4] = currentTask[4] === "1" ? "0" : "1"
-    const rowId = response.data.values.findIndex(x => x[0] === id) + 2
     
     const response2 = await sheets.spreadsheets.values.update({
       spreadsheetId: process.env.GOOGLE_SHEET_ID,
@@ -42,7 +36,7 @@ export default async function handler(
       valueInputOption: "USER_ENTERED",
       requestBody: {
         values: [
-          currentTask
+          Array(Object.keys(new Task([])).length).fill('')
         ]
       }
     })

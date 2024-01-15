@@ -8,6 +8,13 @@ export default async function GetTasks(
   res: NextApiResponse
 ) {
   try {
+    if (req.method !== 'GET') {
+      res.status(405).send({message: 'Only GET requests are allowed'})
+    }
+    const { count } = req.query
+    if (!count || Array.isArray(count) || isNaN(parseInt(count)) || parseInt(count) < 1) {
+      return res.status(400).send({message: 'Bad request'})
+    }
     const userId = req.headers["user-id"]
     if (!userId) {
       return res.status(401).send({message: 'Unauthorized'})
@@ -18,32 +25,29 @@ export default async function GetTasks(
       range: "Tasks!A2:" + getSheetLetter(new Task([]))
     })
     if (!response.data.values) {
-      return res.status(500).send({message: 'Something went wrong'})
+      return res.status(200).json({
+        data: []
+      })
     }
-
     let tasksData = response.data.values.filter(x => x.length > 0 && x[1] === userId)
     tasksData.sort((a, b) => {
-      let aYear = parseInt(a[2][6] + a[2][7])
-      let bYear = parseInt(b[2][6] + b[2][7])
+      const aYear = parseInt(a[2][6] + a[2][7])
+      const bYear = parseInt(b[2][6] + b[2][7])
       if (aYear === bYear) {
-        let aMonth = parseInt(a[2][3] + a[2][4])
-        let bMonth = parseInt(b[2][3] + b[2][4])
+        const aMonth = parseInt(a[2][3] + a[2][4])
+        const bMonth = parseInt(b[2][3] + b[2][4])
         if (aMonth === bMonth) {
-          let aDay = parseInt(a[2][0] + a[2][1])
-          let bDay = parseInt(b[2][0] + b[2][1])
+          const aDay = parseInt(a[2][0] + a[2][1])
+          const bDay = parseInt(b[2][0] + b[2][1])
           return aDay - bDay
         }
         return aMonth - bMonth
       }
       return aYear - bYear
     })
-    tasksData.sort((a, b) => {
-      let aCompleted = parseInt(a[4])
-      let bCompleted = parseInt(b[4])
-      return aCompleted - bCompleted
-    })
+    
     return res.status(200).json({
-      data: tasksData
+      data: tasksData.slice(0, tasksData.length > parseInt(count) ? parseInt(count) : tasksData.length)
     })
   } catch(e:any) {
     return res.status(500).send({message: e.message ?? 'Something went wrong'})
