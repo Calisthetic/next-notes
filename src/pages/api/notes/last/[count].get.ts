@@ -8,8 +8,7 @@ export default async function GetNotes(
   res: NextApiResponse
 ) {
   try {
-    const { noteId } = req.query
-    const count = noteId
+    const { count } = req.query
     if (!count || Array.isArray(count) || isNaN(parseInt(count)) || parseInt(count) < 1) {
       return res.status(400).send({message: 'Bad request'})
     }
@@ -27,10 +26,10 @@ export default async function GetNotes(
         data: []
       })
     }
-    let notes = response.data.values.filter(x => x.length > 0 && x[1] === userId)
+    let notes = response.data.values.filter(x => x.length > 0 && x[1] === userId && x[4] == "0")
     
     return res.status(200).json({
-      data: notes.length <= parseInt(count) ? notes : notes.slice(notes.length - parseInt(count) - 1, notes.length - 1)
+      data: notes.length <= parseInt(count) ? notes : notes.slice(-parseInt(count))
     })
   } catch(e:any) {
     return res.status(500).send({message: e.message ?? 'Something went wrong'})

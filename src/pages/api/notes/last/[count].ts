@@ -1,13 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import DeleteNote from "./[noteId].delete";
+import GetNotes from "./[count].get";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   switch (req.method) {
-    case 'DELETE':
-      DeleteNote(req, res);
+    case 'GET':
+      GetNotes(req, res);
       break;
     default:
       // Invalid method

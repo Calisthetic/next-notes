@@ -14,7 +14,7 @@ export default async function PatchNotes(
       return res.status(401).send({message: 'Unauthorized'})
     }
     const { id, title, text } = req.body
-    if (!id || !title || !text) {
+    if (typeof id !== "string" || typeof title !== "string" || typeof text !== "string") {
       return res.status(400).send({message: 'Bad request'})
     }
     const sheets = await getSheetClient();

@@ -14,7 +14,7 @@ export default async function CreateNote(
       return res.status(401).send({message: 'Unauthorized'})
     }
     const { id, title, text } = req.body
-    if (!title || !text) {
+    if (typeof title !== "string" || typeof text !== "string") {
       return res.status(400).send({message: 'Bad request'})
     }
     const sheets = await getSheetClient();    
@@ -27,7 +27,8 @@ export default async function CreateNote(
           id ? id : getId(),
           userId,
           title,
-          text
+          text,
+          "0"
         ]]
       }
     })
