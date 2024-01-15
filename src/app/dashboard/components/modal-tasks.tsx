@@ -108,7 +108,7 @@ export default function TasksModal ({closeModal}: TasksModalProps) {
         <div className="flex mt-2 justify-center">
           <button className="w-7 h-7 rounded-full flex justify-center items-center bg-secondary hover:opacity-80 transition-opacity"
           onClick={() => setIsNewTaskModalOpen(!isNewTaskModalOpen)}>
-            <IconAdd classes="stroke-button w-7 h-7 transition-opacity"></IconAdd>
+            <IconAdd classes="fill-button w-6 h-6 transition-opacity"></IconAdd>
           </button>
         </div>
       </div>

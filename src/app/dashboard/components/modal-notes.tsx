@@ -82,7 +82,7 @@ export default function NotesModal ({closeModal}: NotesModalProps) {
             notesResponse.length === 0 ? (
               <div className="my-1 font-medium text-secondary-foreground">Заметок нет...</div>
             ) : notesResponse.map((item, index) => (
-              <div key={index} data-id={item[0]} className="rendered-note my-0.5 
+              <div key={index} data-id={item[0]} className="my-0.5 
               items-center flex relative overflow-x-hidden transition-shadow rounded px-1">
                 <div className="flex items-center h-full justify-center mr-1">
                   <CheckButton2 defaultChecked={item[4] === "0"} checkOff={() => PatchArchiveNote(item[0])} 
@@ -121,7 +121,7 @@ export default function NotesModal ({closeModal}: NotesModalProps) {
           setSelectedNote(undefined)
           setIsSelectedNoteModalOpen(!isSelectedNoteModalOpen)
         }}>
-          <IconAdd classes="stroke-button w-7 h-7 transition-opacity"></IconAdd>
+          <IconAdd classes="fill-button w-6 h-6 transition-opacity"></IconAdd>
         </button>
       </div>
 
