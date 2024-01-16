@@ -134,11 +134,15 @@ export default function BirthdaysModal ({closeModal}: BirthdaysModalProps) {
         </div>
       ) : (
         <div className="flex flex-col">
-          <p className="text-lg font-medium">Днюхи</p>
-          <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse max-w-[360px] my-2.5"></div>
-          <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse mb-2.5"></div>
-          <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse max-w-[330px] mb-2.5"></div>
-          <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse max-w-[300px] mb-2.5"></div>
+          <p className="text-xl font-medium">Днюхи</p>
+          {
+            Array(12).fill('').map((_, index) => (
+              <div className="h-6 flex items-center">
+                <div key={index} style={{width: `${Math.floor(Math.random() * 40 + 60)}%`}} 
+                className="h-3 bg-secondary opacity-80 rounded-full animate-pulse"></div>
+              </div>
+            ))
+          }
         </div>
       )}
       <div className="flex mt-2 justify-center">
