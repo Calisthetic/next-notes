@@ -43,7 +43,9 @@ export default function RenderNotes({update}:RenderNotesProps) {
 
   return (
     <div className="my-1 flex flex-col gap-x-1">
-      {response ? response.map((item, index) => (
+      {response ? response.length === 0 ? (
+        <p className="font-medium text-start">Заметок пока что нет...</p>
+      ) : response.map((item, index) => (
         <div key={index} data-id={item[0]} className="rendered-note relative overflow-x-hidden transition-shadow rounded px-1">
           <span className="font-semibold">{item[2]}</span>
           <button className="truncate hover:underline opacity-80 text-start flex flex-row rounded"

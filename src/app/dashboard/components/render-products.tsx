@@ -29,7 +29,7 @@ export default function RenderProducts({update}:RenderProductsProps) {
         setResponse(null)
         setTimeout(() => {
           setResponse(data.data)
-        }, 10);
+        }, 1);
       })
       .catch(error => {
         console.log(error.message)
@@ -82,7 +82,9 @@ export default function RenderProducts({update}:RenderProductsProps) {
 
   return (
     <div className="my-1">
-      {response ? response.map((item, index) => (
+      {response ? response.length === 0 ? (
+        <p className="font-medium text-start">Продуктов пока что нет...</p>
+      ) : response.map((item, index) => (
         <div key={index} className="flex flex-row items-center md:flex-nowrap gap-x-1 ml-0.5 my-0.5 relative">
           <CheckButton defaultChecked={false} 
           checkOn={() => DeleteProduct(item[0])} checkOff={() => AddProduct(item[2], item[0])}></CheckButton>

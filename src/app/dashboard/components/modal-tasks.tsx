@@ -96,9 +96,11 @@ export default function TasksModal ({closeModal}: TasksModalProps) {
           <div key={item[0]} className="flex items-center flex-row my-0.5">
             <CheckButton defaultChecked={item[4] === "1"} checkOn={() => DeleteTask(item[0])} 
             checkOff={() => RestoreTask(item[0], item[2], item[3])}></CheckButton>
-            <span className="opacity-80 font-semibold ml-2">{item[2]}</span>
-            <span className="mx-1">-</span>
-            <span>{item[3]}</span>
+            <div className="text-start max-w-[236px] ml-2">
+              <span className="opacity-80 font-semibold">{item[2]}</span>
+              <span className="mx-1">-</span>
+              <span>{item[3]}</span>
+            </div>
           </div>
         )) : (
           <p className=" text-lg font-medium">Loading...</p>

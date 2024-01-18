@@ -137,7 +137,7 @@ export default function BirthdaysModal ({closeModal}: BirthdaysModalProps) {
           <p className="text-xl font-medium">Днюхи</p>
           {
             Array(12).fill('').map((_, index) => (
-              <div className="h-6 flex items-center">
+              <div key={index} className="h-6 flex items-center">
                 <div key={index} style={{width: `${Math.floor(Math.random() * 40 + 60)}%`}} 
                 className="h-3 bg-secondary opacity-80 rounded-full animate-pulse"></div>
               </div>

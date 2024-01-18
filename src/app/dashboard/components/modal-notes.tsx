@@ -34,7 +34,7 @@ export default function NotesModal ({closeModal}: NotesModalProps) {
         setNotesResponse(undefined)
         setTimeout(() => {
           setNotesResponse(data.data)
-        }, 10);
+        }, 1);
       })
       .catch(error => {
         console.log(error.message)
@@ -108,7 +108,7 @@ export default function NotesModal ({closeModal}: NotesModalProps) {
         </div>
       ) : (
         <div className="flex flex-col">
-          <p className="text-lg font-medium">Заметки</p>
+          <p className="text-lg font-medium">Недавние заметки</p>
           <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse max-w-[360px] my-2.5"></div>
           <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse mb-2.5"></div>
           <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse max-w-[330px] mb-2.5"></div>

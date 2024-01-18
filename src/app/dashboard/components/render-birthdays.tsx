@@ -37,17 +37,19 @@ export default function RenderBirthdays({update}: RenderBirthdaysProps) {
 
   return (
     <div className="my-1">
-      {response ? response.map((item, index) => (
+      {response ? response.length === 0 ? (
+        <p className="font-medium text-start">Днюх пока что нет...</p>
+      ) : response.map((item, index) => (
         <div key={index} className="flex flex-row flex-wrap: md:flex-nowrap gap-x-1">
           <span className="opacity-80 font-semibold">{item[3]}</span>
           <span>{item[2]}</span>
         </div>
       )) : (
         <>
-          <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse max-w-[360px] my-2.5"></div>
-          <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse mb-2.5"></div>
-          <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse max-w-[330px] mb-2.5"></div>
-          <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse max-w-[300px] mb-2.5"></div>
+          <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse max-w-[360px] mt-3"></div>
+          <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse mt-3"></div>
+          <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse max-w-[330px] mt-3"></div>
+          <div className="h-3 bg-secondary opacity-80 rounded-full animate-pulse max-w-[300px] mt-3"></div>
         </>
       )}
     </div>
