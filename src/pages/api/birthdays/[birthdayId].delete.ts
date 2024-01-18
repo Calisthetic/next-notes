@@ -23,7 +23,7 @@ export default async function DeleteBirthday(
     })
     
     if (!response.data.values) {
-      return res.status(404).send({message: 'No birthdays found'})
+      return res.status(200).send({data: []})
     }
     const rowId = response.data.values.findIndex(x => x.length !== 0 && x[1] === userId && x[0] === birthdayId) + 2
     if (rowId === 1) {

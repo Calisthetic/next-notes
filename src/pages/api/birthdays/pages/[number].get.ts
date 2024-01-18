@@ -22,9 +22,7 @@ export default async function GetBirthdays(
       range: "Birthdays!A2:" + getSheetLetter(new Birthday([]))
     })
     if (!response.data.values) {
-      return res.status(200).json({
-        data: []
-      })
+      return res.status(200).json({data: []})
     }
     let birthdaysData = response.data.values.filter(x => x.length > 0 && x[1] === userId)
     birthdaysData.sort((a, b) => {

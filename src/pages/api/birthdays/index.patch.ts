@@ -24,7 +24,7 @@ export default async function PatchBirthday(
       range: "Birthdays!A2:" + getSheetLetter(new Birthday([]))
     })
     if (!response.data.values) {
-      return res.status(404).send({message: 'Birthday not found'})
+      return res.status(200).send({data: []})
     }
     const rowId = response.data.values.findIndex(x => x[0] === id && x[1] === userId) + 2
     if (rowId === 1) {

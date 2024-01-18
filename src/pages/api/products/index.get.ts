@@ -18,8 +18,8 @@ export default async function GetProducts(
       range: "Products!A2:" + getSheetLetter(new Product([])),
     })
 
-    if (!responseProducts.data.values) {
-      return res.status(404).send({message: 'No products found'})
+    if (responseProducts.data.values === undefined || responseProducts.data.values === null) {
+      return res.status(200).send({data: []})
     }
     let products = responseProducts.data.values.filter(x => x.length !== 0)
     

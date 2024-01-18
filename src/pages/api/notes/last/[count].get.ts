@@ -22,9 +22,7 @@ export default async function GetNotes(
       range: "Notes!A2:" + getSheetLetter(new Note([]))
     })
     if (!response.data.values) {
-      return res.status(200).json({
-        data: []
-      })
+      return res.status(200).json({data: []})
     }
     let notes = response.data.values.filter(x => x.length > 0 && x[1] === userId && x[4] == "0").reverse()
     

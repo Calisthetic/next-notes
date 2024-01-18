@@ -18,7 +18,7 @@ export default async function GetTasks(
       range: "Tasks!A2:" + getSheetLetter(new Task([]))
     })
     if (!response.data.values) {
-      return res.status(500).send({message: 'Something went wrong'})
+      return res.status(200).send({data: []})
     }
 
     let tasksData = response.data.values.filter(x => x.length > 0 && x[1] === userId)

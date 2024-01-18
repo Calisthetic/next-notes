@@ -23,7 +23,7 @@ export default async function DeleteTask(
       range: "Tasks!A2:" + getSheetLetter(new Task([]))
     })
     if (!response.data.values) {
-      return res.status(500).json({message: 'Something went wrong'})
+      return res.status(200).send({data: []})
     }
     const rowId = response.data.values.findIndex(x => x.length > 0 && x[1] === userId && x[0] === taskId) + 2
     if (rowId === 1) {

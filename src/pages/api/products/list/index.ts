@@ -19,7 +19,7 @@ export default async function handler(
     })
 
     if (!responseProducts.data.values) {
-      return res.status(404).send({message: 'No products found'})
+      return res.status(200).send({data: []})
     }
     let products = responseProducts.data.values.filter(x => x.length !== 0)
     

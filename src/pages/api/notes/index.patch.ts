@@ -23,7 +23,7 @@ export default async function PatchNotes(
       range: "Notes!A2:" + getSheetLetter(new Note([]))
     })
     if (!response.data.values) {
-      return res.status(500).json({message: 'Something went wrong'})
+      return res.status(200).send({data: []})
     }
     const tasksData = response.data.values.filter(x => x.length > 0 && x[1] === userId && x[0] === id)
     if (tasksData && tasksData.length !== 1) {

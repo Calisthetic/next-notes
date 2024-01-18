@@ -24,7 +24,7 @@ export default async function DeleteProduct(
     })
 
     if (!responseProducts.data.values) {
-      return res.status(404).send({message: 'No products found'})
+      return res.status(200).send({data: []})
     }
     const rowId = responseProducts.data.values.findIndex(x => x.length !== 0 && x[1] === userId && x[0] === productId) + 2
     if (rowId === 1) {

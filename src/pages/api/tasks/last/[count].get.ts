@@ -25,9 +25,7 @@ export default async function GetTasks(
       range: "Tasks!A2:" + getSheetLetter(new Task([]))
     })
     if (!response.data.values) {
-      return res.status(200).json({
-        data: []
-      })
+      return res.status(200).json({data: []})
     }
     let tasksData = response.data.values.filter(x => x.length > 0 && x[1] === userId)
     tasksData.sort((a, b) => {

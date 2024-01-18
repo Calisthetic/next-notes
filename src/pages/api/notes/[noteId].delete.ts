@@ -23,7 +23,7 @@ export default async function DeleteNote(
     })
     
     if (!response.data.values) {
-      return res.status(404).send({message: 'No notes found'})
+      return res.status(200).send({data: []})
     }
     const rowId = response.data.values.findIndex(x => x.length !== 0 && x[1] === userId && x[0] === noteId) + 2
     if (rowId === 1) {

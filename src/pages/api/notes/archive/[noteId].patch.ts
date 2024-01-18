@@ -23,7 +23,7 @@ export default async function PatchNote(
     })
     
     if (!response.data.values) {
-      return res.status(404).send({message: 'No notes found'})
+      return res.status(200).send({data: []})
     }
     const searchResult = response.data.values.filter(x => x.length !== 0 && x[1] === userId && x[0] === noteId)
     if (searchResult.length !== 1) {
