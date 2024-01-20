@@ -36,13 +36,13 @@ export default async function GetBirthdays(
       return aMonth - bMonth
     })
     const currentDate = new Date()
-    const currentMonth = currentDate.getMonth()
+    const currentMonth = currentDate.getMonth() + 1
     const currentDay = currentDate.getDate()
     let startIndex = -1
 
     for (let i = 0; i < usersData.length; i++) {
       let month = parseInt(usersData[i][3][3] + usersData[i][3][4])
-      let day = parseInt(usersData[i][3][1] + usersData[i][3][2])
+      let day = parseInt(usersData[i][3][0] + usersData[i][3][1])
       if ((month < currentMonth || (month === currentMonth && day <= currentDay))) {
         startIndex = i + 1
       }
