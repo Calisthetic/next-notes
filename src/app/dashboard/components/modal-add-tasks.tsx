@@ -48,8 +48,10 @@ export default function ModalAddEditTasks({closeModal, setIsUpdate}: ModalEditTa
   }
 
   function getTomorrowDate() {
-    const date = new Date();
-    const currentDay = date.getDate() + 1;
+    let today = new Date();
+    let date = new Date(today);
+    date.setDate(today.getDate() + 1);
+    const currentDay = date.getDate();
     const currentMonth = date.getMonth() + 1;
     return `${currentDay < 10 ? "0" + currentDay : currentDay}.${currentMonth < 10 ? "0" + currentMonth : currentMonth}.${date.getFullYear().toString().slice(-2)}`;
   }
