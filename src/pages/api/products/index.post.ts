@@ -20,7 +20,7 @@ export default async function CreateProduct(
     }
 
     let values:any[] = []
-    const names:string[] = name.split(/[;,.\n]+/)
+    const names:string[] = name.split(/[;,\n]+/)
     for (let i = 0; i < names.length; i++) {
       names[i] = names[i].trim()
       if(names[i].length === 0) {
