@@ -43,7 +43,7 @@ export default async function GetBirthdays(
     for (let i = 0; i < usersData.length; i++) {
       let month = parseInt(usersData[i][3][3] + usersData[i][3][4])
       let day = parseInt(usersData[i][3][0] + usersData[i][3][1])
-      if ((month < currentMonth || (month === currentMonth && day <= currentDay))) {
+      if ((month < currentMonth || (month === currentMonth && day < currentDay))) {
         startIndex = i + 1
       }
     }
