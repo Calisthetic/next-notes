@@ -32,7 +32,10 @@ export default function BirthdaysModal ({closeModal}: BirthdaysModalProps) {
         return res.json();
       })
       .then(data => {
-        setBirthdaysResponse(data.data)
+        setBirthdaysResponse(undefined)
+        setTimeout(() => {
+          setBirthdaysResponse(data.data)
+        }, 10);
       })
       .catch(error => {
         console.log(error.message)

@@ -87,7 +87,7 @@ export default function RenderTasks({update}:RenderTasksProps) {
         <p className="font-medium text-start">Заданий пока что нет...</p>
       ) : response.map((item) => (
         <div key={item[0]} className="flex ml-0.5 flex-row md:flex-nowrap my-0.5 gap-x-1 transition-opacity">
-          <div className="mt-1">
+          <div className="mt-0.5">
             <CheckButton defaultChecked={item[4] === "1" ? true : false} checkOn={() => DeleteTask(item[0])}
             checkOff={() => RestoreTask(item[0], item[2], item[3])}></CheckButton>
           </div>
